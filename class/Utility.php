@@ -415,7 +415,7 @@ class Utility extends Common\SysUtility
                       . $key['cid']
                       . '">
 				'
-                      . $icons['edit']
+                      . $icons->edit
                       . '
 				</a>
 				<a href="'
@@ -424,7 +424,7 @@ class Utility extends Common\SysUtility
                       . $key['cid']
                       . '">
 				'
-                      . $icons['delete']
+                      . $icons->delete
                       . '
 				</td>
 				</tr>';
