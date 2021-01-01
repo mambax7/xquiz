@@ -27,7 +27,7 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 // ------------------- Informations -------------------
 $modversion = [
     'version'             => 2.00,
-    'module_status'       => 'Alpha 1',
+    'module_status'       => 'Beta 1',
     'release_date'        => '2021/01/01',
     'name'                => _MI_XQUIZ_NAME,
     'description'         => _MI_XQUIZ_DESC,
