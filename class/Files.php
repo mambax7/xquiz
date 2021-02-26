@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz;
+namespace XoopsModules\Quiz;
 
 // $Id: class.sfiles.php,v 1.10 2004/09/02 17:04:08 hthouzard Exp $
 //  ------------------------------------------------------------------------ //
@@ -30,16 +30,16 @@ namespace XoopsModules\Xquiz;
 
 defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Helper,
     Mimetype,
-    Quiz,
+    QuizBase,
     Question
 };
 
 /**
  * Class Files
- * @package XoopsModules\Xquiz
+ * @package XoopsModules\Quiz
  */
 class Files
 {

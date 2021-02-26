@@ -3,7 +3,7 @@
 		<{if $quiz.status==1 && $quiz.active==1}>
 			<tr>
 				<td>
-					<a href="<{$xoops_url}>/modules/xquiz/quiz.php?act=v&q=<{$quiz.id}>">
+					<a href="<{$xoops_url}>/modules/quiz/quiz.php?act=v&q=<{$quiz.id}>">
 						<{$quiz.name}>
 					</a>
 				</td>

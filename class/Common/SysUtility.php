@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace XoopsModules\Xquiz\Common;
+namespace XoopsModules\Quiz\Common;
 
 /*
  Utility Class Definition
@@ -28,7 +28,7 @@ namespace XoopsModules\Xquiz\Common;
 use MyTextSanitizer;
 use XoopsFormDhtmlTextArea;
 use XoopsFormTextArea;
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Helper
 };
 

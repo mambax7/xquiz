@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz;
+namespace XoopsModules\Quiz;
 
 /**
  * Copyright (C) 2002 Jason Sheets <jsheets@shadonet.com>.
@@ -73,7 +73,7 @@ defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
  * Class Mimetype
- * @package XoopsModules\Xquiz
+ * @package XoopsModules\Quiz
  */
 class Mimetype
 {

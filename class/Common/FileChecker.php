@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz\Common;
+namespace XoopsModules\Quiz\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,7 +13,7 @@ namespace XoopsModules\Xquiz\Common;
  */
 
 /**
- * Xquiz module
+ * Quiz module
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -21,7 +21,7 @@ namespace XoopsModules\Xquiz\Common;
  */
 
 use Xmf\Request;
-use XoopsModules\Xquiz;
+use XoopsModules\Quiz;
 
 //defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 

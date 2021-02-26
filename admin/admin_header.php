@@ -19,7 +19,7 @@
  */
 
 use Xmf\Module\Admin;
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Helper
 };
 /** @var Admin $adminObject */
@@ -42,6 +42,17 @@ $adminObject = Admin::getInstance();
 $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');
 $helper->loadLanguage('common');
+
+///** @var \XoopsPersistableObjectHandler $answersHandler */
+//$answersHandler = $helper->getHandler('Answer');
+///** @var \XoopsPersistableObjectHandler $categoriesHandler */
+//$categoriesHandler = $helper->getHandler('Category');
+///** @var \XoopsPersistableObjectHandler $questionHandler */
+//$questionHandler = $helper->getHandler('Question');
+///** @var \XoopsPersistableObjectHandler $questionsHandler */
+//$questionsHandler = $helper->getHandler('Questions');
+///** @var \XoopsPersistableObjectHandler $quizHandler */
+//$quizHandler = $helper->getHandler('Quiz');
 
 //$myts = \MyTextSanitizer::getInstance();
 

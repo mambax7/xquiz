@@ -2,7 +2,7 @@
 
 /**
  * ****************************************************************************
- * xquiz - MODULE FOR XOOPS
+ * quiz - MODULE FOR XOOPS
  * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
  *
  * You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@
  *
  * @copyright          XOOPS Project (https://xoops.org)
  * @license            http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package            xquiz
+ * @package            quiz
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *

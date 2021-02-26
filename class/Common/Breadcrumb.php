@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz\Common;
+namespace XoopsModules\Quiz\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -17,7 +17,7 @@ namespace XoopsModules\Xquiz\Common;
  * @copyright   XOOPS Project (https://xoops.org)
  * @license     http://www.fsf.org/copyleft/gpl.html GNU public license
  * @author      lucio <lucio.rota@gmail.com>
- * @package     Xquiz
+ * @package     Quiz
  *
  * Example:
  * $breadcrumb = new Common\Breadcrumb();
@@ -26,8 +26,8 @@ namespace XoopsModules\Xquiz\Common;
  * $breadcrumb->addLink( 'bread 3', 'index3.php' );
  * echo $breadcrumb->render();
  */
-use XoopsModules\Xquiz;
-use XoopsModules\Xquiz\Common;
+use XoopsModules\Quiz;
+use XoopsModules\Quiz\Common;
 
 //defined('XOOPS_ROOT_PATH') || exit('XOOPS Root Path not defined');
 

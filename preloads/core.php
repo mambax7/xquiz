@@ -16,9 +16,9 @@
 defined('XOOPS_ROOT_PATH') || die('Restricted access.');
 
 /**
- * Class XquizCorePreload
+ * Class QuizCorePreload
  */
-class XquizCorePreload extends XoopsPreloadItem
+class QuizCorePreload extends XoopsPreloadItem
 {
     // to add PSR-4 autoloader
 

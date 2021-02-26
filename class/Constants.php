@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz;
+namespace XoopsModules\Quiz;
 
 /*
  * You may not change or alter any portion of this comment or credits

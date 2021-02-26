@@ -15,7 +15,7 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Helper
 };
 

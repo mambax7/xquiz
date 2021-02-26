@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz\Common;
+namespace XoopsModules\Quiz\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -12,7 +12,7 @@ namespace XoopsModules\Xquiz\Common;
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  */
 
-use \XoopsModules\Xquiz\Common;
+use \XoopsModules\Quiz\Common;
 
 /**
  * Class Migrate synchronize existing tables with target schema
@@ -29,7 +29,7 @@ class Migrate extends \Xmf\Database\Migrate
 
     /**
      * Migrate constructor.
-     * @param \XoopsModules\Xquiz\Common\Configurator|null $configurator
+     * @param \XoopsModules\Quiz\Common\Configurator|null $configurator
      */
     public function __construct(Common\Configurator $configurator = null)
     {

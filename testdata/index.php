@@ -17,7 +17,7 @@
 use Xmf\Database\TableLoad;
 use \Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Helper,
     Common\Configurator,
     Utility

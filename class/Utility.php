@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz;
+namespace XoopsModules\Quiz;
 
 /*
  Utility Class Definition
@@ -21,10 +21,10 @@ namespace XoopsModules\Xquiz;
  * @author       Mamba <mambax7@gmail.com>
  */
 
-use XoopsModules\Xquiz;
-use XoopsModules\Xquiz\Common;
-use XoopsModules\Xquiz\Common\Configurator;
-use XoopsModules\Xquiz\Constants;
+use XoopsModules\Quiz;
+use XoopsModules\Quiz\Common;
+use XoopsModules\Quiz\Common\Configurator;
+use XoopsModules\Quiz\Constants;
 
 /**
  * Class Utility
@@ -41,7 +41,7 @@ class Utility extends Common\SysUtility
     {
         global $xoopsDB;
         $query = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('xquiz_score') . " WHERE id = $id AND userid = '$userId'"
+            'SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . " WHERE id = $id AND userid = '$userId'"
         );
 
         $res = $xoopsDB->getRowsNum($query);
@@ -61,7 +61,7 @@ class Utility extends Common\SysUtility
     public static function numUserScore($qId)
     {
         global $xoopsDB;
-        $result = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('xquiz_score') . " WHERE id = $qId");
+        $result = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . " WHERE id = $qId");
         return $xoopsDB->getRowsNum($result);
     }
 
@@ -121,7 +121,7 @@ class Utility extends Common\SysUtility
 // region show select quiz form
     public static function statQuizsSelectForm()
     {
-        $list = Quiz::allQuizs();
+        $list = QuizBase::allQuizs();
 
         echo "<div id='newsel' style='text-align: center;'>
 					<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>
@@ -130,7 +130,7 @@ class Utility extends Common\SysUtility
 							<form method='get' action='main.php'\">
 								<input type='hidden' name='op' value='Statistics'>
 								
-								<label>" . _AM_XQUIZ_QUIZS_SELECT . "
+								<label>" . _AM_QUIZ_QUIZS_SELECT . "
 									<select name='Id'>";
         foreach ($list as $key) {
             echo "<option value='" . $key['id'] . "'>" . $key['name'] . '</option>';
@@ -139,10 +139,10 @@ class Utility extends Common\SysUtility
         echo '						</select>
 								</lable>
 								<label>
-								' . _AM_XQUIZ_CSV_EXPORT . "
+								' . _AM_QUIZ_CSV_EXPORT . "
 								</lable>
 								<input type='checkbox' name='exp'>
-								<input type='submit' value='" . _AM_XQUIZ_QUEST_GO . "'>
+								<input type='submit' value='" . _AM_QUIZ_QUEST_GO . "'>
 							</form>
 							</td>
 							
@@ -161,8 +161,8 @@ class Utility extends Common\SysUtility
     {
         global $xoopsDB;
         $list  = [];
-        $query = 'SELECT * FROM ' . $xoopsDB->prefix('xquiz_useranswers') . ' 
-			NATURAL JOIN ' . $xoopsDB->prefix('xquiz_quizquestion') . " 
+        $query = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_useranswers') . ' 
+			NATURAL JOIN ' . $xoopsDB->prefix('quiz_quizquestion') . " 
 			WHERE userId = $uid AND quizId=$quizId AND questId=id";
         $query = $xoopsDB->query($query);
         $q     = 0;
@@ -190,19 +190,19 @@ class Utility extends Common\SysUtility
         $configurator = new Configurator();
         $icons = $configurator->icons;
 
-        $quiz      = Quiz::retrieveQuiz($quizId);
+        $quiz      = QuizBase::retrieveQuiz($quizId);
         $thisUser  = $memberHandler->getUser($uid);
-        $userImage = '<img src= "' . XOOPS_URL . "/modules/xquiz/assets/images/user.png \" alt='' >";
-        $quizImage = '<img src= "' . XOOPS_URL . "/modules/xquiz/assets/images/quizz.png \" alt='' >";
+        $userImage = '<img src= "' . XOOPS_URL . "/modules/quiz/assets/images/user.png \" alt='' >";
+        $quizImage = '<img src= "' . XOOPS_URL . "/modules/quiz/assets/images/quizz.png \" alt='' >";
 
         self::collapsableBar('newsub', 'topnewsubicon');
-        $temp = "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-				 </a>&nbsp;" . _MD_XQUIZ_USER_ANSWER_DETAIL . "</h4><br>
+        $temp = "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+				 </a>&nbsp;" . _MD_QUIZ_USER_ANSWER_DETAIL . "</h4><br>
 					<div id='newsub' style='text-align: center;'>
 					<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>
 						<tr class='odd'>
 							<td>
-							<a href=\"" . XOOPS_URL . '/modules/xquiz/admin/main.php?op=Statistics&Id=' . $quiz['id'] . '">' . $quizImage . $quiz['name'] . "</a>
+							<a href=\"" . XOOPS_URL . '/modules/quiz/admin/main.php?op=Statistics&Id=' . $quiz['id'] . '">' . $quizImage . $quiz['name'] . "</a>
 							<a href='" . XOOPS_URL . '/userinfo.php?uid=' . $uid . "'>" . $userImage . $thisUser->getVar('uname') . "</a>
 							</td>
 						</tr>
@@ -211,26 +211,26 @@ class Utility extends Common\SysUtility
 					<table width='100%' cellspacing='1' cellpadding='1' border='0' class='outer'>
 					<tr class='bg3'>
 						<th>
-							" . _AM_XQUIZ_QUEST_NAME . '
+							" . _AM_QUIZ_QUEST_NAME . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_QUEST_CORRECT . '
+							' . _AM_QUIZ_QUEST_CORRECT . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_QUEST_SCORE . '
+							' . _AM_QUIZ_QUEST_SCORE . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_USER_ANSWER . '
+							' . _AM_QUIZ_USER_ANSWER . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_STATUS . '
+							' . _AM_QUIZ_STATUS . '
 						</th>
 					</tr>';
 
         $class        = 'even';
-        $delImage     = '<img src= "' . XOOPS_URL . '/modules/xquiz/assets/images/delete.png " title=' . _AM_XQUIZ_DEL . " alt='' >";
-        $validImage   = '<img src= "' . XOOPS_URL . "/modules/xquiz/assets/images/valid.png \" alt='' >";
-        $invalidImage = '<img src= "' . XOOPS_URL . "/modules/xquiz/assets/images/invalid.png \" alt='' >";
+        $delImage     = '<img src= "' . XOOPS_URL . '/modules/quiz/assets/images/delete.png " title=' . _AM_QUIZ_DEL . " alt='' >";
+        $validImage   = '<img src= "' . XOOPS_URL . "/modules/quiz/assets/images/valid.png \" alt='' >";
+        $invalidImage = '<img src= "' . XOOPS_URL . "/modules/quiz/assets/images/invalid.png \" alt='' >";
         $ts           = \MyTextSanitizer::getInstance();
         foreach ($list as $key) {
             $correct = ($key['answer'] == $key['userAns']) ? $validImage : $invalidImage;
@@ -266,10 +266,10 @@ class Utility extends Common\SysUtility
     public static function userQuizzes($uid)
     {
         global $xoopsDB, $xoopsModuleConfig;
-        $dateformat = $xoopsModuleConfig['dateformat'];
+        $dateformat = $xoopsModuleConfig['dateformat']??'';
         $list       = [];
-        $query      = 'SELECT * FROM ' . $xoopsDB->prefix('xquiz_score') . ' 
-			NATURAL JOIN ' . $xoopsDB->prefix('xquiz_quizzes') . " 
+        $query      = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' 
+			NATURAL JOIN ' . $xoopsDB->prefix('quiz_quizzes') . " 
 			WHERE userid = $uid";
         $query      = $xoopsDB->query($query);
         $q          = 0;
@@ -301,18 +301,18 @@ class Utility extends Common\SysUtility
     public static function sendEmail($user, $score, $qid)
     {
         global $xoopsConfig, $xoopsDB, $xoopsModuleConfig;
-        $dateformat = $xoopsModuleConfig['dateformat'];
+        $dateformat = $xoopsModuleConfig['dateformat']??'';
 
         if (!is_object($user)) {
             $user =& $GLOBALS['xoopsUser'];
         }
-        $msg           = sprintf(_MD_XQUIZ_EMAIL_DESC, $user->getVar('uname'));
+        $msg           = sprintf(_MD_QUIZ_EMAIL_DESC, $user->getVar('uname'));
         $msg           .= "\n\n";
         $msg           .= formatTimestamp(time(), $dateformat);
         $msg           .= "\n";
-        $msg           .= _MD_XQUIZ_EMAIL_MESSAGE . ":\n";
-        $msg           .= _MD_XQUIZ_FINAL_SCORE . ' = ' . $score . "\n";
-        $msg           .= _MD_XQUIZ_SCORE_PROFILE . ': ' . XOOPS_URL . '/modules/xquiz/index.php?act=p&q=' . $qid . "\n";
+        $msg           .= _MD_QUIZ_EMAIL_MESSAGE . ":\n";
+        $msg           .= _MD_QUIZ_FINAL_SCORE . ' = ' . $score . "\n";
+        $msg           .= _MD_QUIZ_SCORE_PROFILE . ': ' . XOOPS_URL . '/modules/quiz/index.php?act=p&q=' . $qid . "\n";
         $msg           .= $xoopsConfig['sitename'] . ': ' . XOOPS_URL . "\n";
         $system_mailer = (defined('ICMS_VERSION_NAME') && ICMS_VERSION_NAME) ? getMailer() : xoops_getMailer();
         $xoopsMailer   =& $system_mailer;
@@ -320,7 +320,7 @@ class Utility extends Common\SysUtility
         $xoopsMailer->setToEmails($user->getVar('email'));
         $xoopsMailer->setFromEmail($xoopsConfig['adminmail']);
         $xoopsMailer->setFromName($xoopsConfig['sitename']);
-        $xoopsMailer->setSubject(_MD_XQUIZ_EMAIL_SUBJECT);
+        $xoopsMailer->setSubject(_MD_QUIZ_EMAIL_SUBJECT);
         $xoopsMailer->setBody($msg);
         return $xoopsMailer->send();
     }
@@ -339,14 +339,14 @@ class Utility extends Common\SysUtility
         $icons = $configurator->icons;
 
         global $xoopsDB;
-        $xt = new Category($xoopsDB->prefix('xquiz_categories'), 'cid', 'pid');
+        $xt = new Category($xoopsDB->prefix('quiz_categories'), 'cid', 'pid');
 
         $listCategory = $xt->getList($start, $limit, 'title');
         //$nume = $xt->getNumberList();
         $nume = count($listCategory);
         self::collapsableBar('newsub', 'topnewsubicon');
-        $temp = "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-				 </a>&nbsp;" . _AM_XQUIZ_CATEGORIES . "</h4><br>
+        $temp = "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+				 </a>&nbsp;" . _AM_QUIZ_CATEGORIES . "</h4><br>
 					<div id='newsub' style='text-align:left;'>
 					<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>
 						<tr class='odd'>
@@ -354,7 +354,7 @@ class Utility extends Common\SysUtility
 							<form method='get' action='main.php'>
 							<input type='hidden' name='op' value='Category'>
 							<input type='hidden' name='act' value='add'>
-							<input type='submit' value='" . _AM_XQUIZ_NEW_CATEGORY . "'>
+							<input type='submit' value='" . _AM_QUIZ_NEW_CATEGORY . "'>
 							</form>
 							</td>
 						</tr>
@@ -362,18 +362,18 @@ class Utility extends Common\SysUtility
 					<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>
 					<tr class='bg3'>
 						<th>
-							" . _AM_XQUIZ_CATEGORY_TITLE . '
+							" . _AM_QUIZ_CATEGORY_TITLE . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_CATEGORY_WEIGHT . '
+							' . _AM_QUIZ_CATEGORY_WEIGHT . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_ACTION . '
+							' . _AM_QUIZ_ACTION . '
 						</th>
 					</tr>';
 
         $class     = 'even';
-        $goImage   = '<img src= "' . XOOPS_URL . '/modules/xquiz/assets/images/cat.gif " title=' . _AM_XQUIZ_EDIT . " alt='' >";
+        $goImage   = '<img src= "' . XOOPS_URL . '/modules/quiz/assets/images/cat.gif " title=' . _AM_QUIZ_EDIT . " alt='' >";
 
         foreach ($listCategory as $key) {
             $class = ('even' == $class) ? 'odd' : 'even';
@@ -387,15 +387,15 @@ class Utility extends Common\SysUtility
                       . '
 					<a href="'
                       . XOOPS_URL
-                      . '/modules/xquiz/index.php?cid='
+                      . '/modules/quiz/index.php?cid='
                       . $key['cid']
                       . '"><img src="'
                       . XOOPS_URL
-                      . '/uploads/xquiz/category/'
+                      . '/uploads/quiz/category/'
                       . $key['imgurl']
                       . "\" width='40px' height='40px' align='left' style='padding:5px'></a>&nbsp;<a href=\""
                       . XOOPS_URL
-                      . '/modules/xquiz/index.php?cid='
+                      . '/modules/quiz/index.php?cid='
                       . $key['cid']
                       . '">'
                       . $key['title']
@@ -411,7 +411,7 @@ class Utility extends Common\SysUtility
 				<td>
 				<a href="'
                       . XOOPS_URL
-                      . '/modules/xquiz/admin/main.php?op=Category&act=edit&Id='
+                      . '/modules/quiz/admin/main.php?op=Category&act=edit&Id='
                       . $key['cid']
                       . '">
 				'
@@ -420,7 +420,7 @@ class Utility extends Common\SysUtility
 				</a>
 				<a href="'
                       . XOOPS_URL
-                      . '/modules/xquiz/admin/main.php?op=Category&act=del&Id='
+                      . '/modules/quiz/admin/main.php?op=Category&act=del&Id='
                       . $key['cid']
                       . '">
 				'
@@ -444,11 +444,11 @@ class Utility extends Common\SysUtility
     public static function CategoryForm($op = 'add', $eId = 0)
     {
         global $xoopsDB, $xoopsModule, $xoopsModuleConfig;
-        $xt               = new Category($xoopsDB->prefix('xquiz_categories'), 'cid', 'pid');
+        $xt               = new Category($xoopsDB->prefix('quiz_categories'), 'cid', 'pid');
         $myts             = \MyTextSanitizer::getInstance();
         $maxuploadsize    = $xoopsModuleConfig['maxuploadsize'];
         $addCategory_form = new \XoopsThemeForm(
-            _AM_XQUIZ_NEW_CATEGORY, 'addcategoryfrom', XOOPS_URL . '/modules/xquiz/admin/backend.php', 'post', true
+            _AM_QUIZ_NEW_CATEGORY, 'addcategoryfrom', XOOPS_URL . '/modules/quiz/admin/backend.php', 'post', true
         );
         $addCategory_form->setExtra('enctype="multipart/form-data"');
         // Permissions
@@ -469,28 +469,28 @@ class Utility extends Common\SysUtility
 
             $groups_ids                    = $grouppermHandler->getGroupIds('quiz_view', $category_id_v, $xoopsModule->getVar('mid'));
             $groups_ids                    = array_values($groups_ids);
-            $groups_quiz_can_view_checkbox = new \XoopsFormCheckBox(_AM_XQUIZ_VIEWFORM, 'groups_quiz_can_view[]', $groups_ids);
+            $groups_quiz_can_view_checkbox = new \XoopsFormCheckBox(_AM_QUIZ_VIEWFORM, 'groups_quiz_can_view[]', $groups_ids);
 
             $category_id = new \XoopsFormHidden('cateId', $category_id_v);
             $addCategory_form->addElement($category_id);
-            $submit_button = new \XoopsFormButton('', 'editCateSubmit', _AM_XQUIZ_SUBMIT, 'submit');
+            $submit_button = new \XoopsFormButton('', 'editCateSubmit', _AM_QUIZ_SUBMIT, 'submit');
         } elseif ('add' == $op) {
             $category_title_v              = '';
             $category_desc_v               = '';
             $category_parent_id            = 0;
             $category_weight_v             = 0;
             $topicimage                    = 'blank.png';
-            $groups_quiz_can_view_checkbox = new \XoopsFormCheckBox(_AM_XQUIZ_VIEWFORM, 'groups_quiz_can_view[]', $full_list);
-            $submit_button                 = new \XoopsFormButton('', 'addCateSubmit', _AM_XQUIZ_SUBMIT, 'submit');
+            $groups_quiz_can_view_checkbox = new \XoopsFormCheckBox(_AM_QUIZ_VIEWFORM, 'groups_quiz_can_view[]', $full_list);
+            $submit_button                 = new \XoopsFormButton('', 'addCateSubmit', _AM_QUIZ_SUBMIT, 'submit');
         }
 
-        $category_title = new \XoopsFormText(_AM_XQUIZ_CATEGORY_TITLE, 'cateTitle', 50, 100, $category_title_v);
+        $category_title = new \XoopsFormText(_AM_QUIZ_CATEGORY_TITLE, 'cateTitle', 50, 100, $category_title_v);
         ob_start();
         $xt->makeMySelBox('title', 'cid', $category_parent_id, 1, 'cateParent');
-        $category_parent = new \XoopsFormLabel(_AM_XQUIZ_CATEGORY_PARENT, ob_get_clean());
-        //$category_description = new \XoopsFormDhtmlTextArea(_AM_XQUIZ_CATEGORY_DESC, "cateDesc", $category_desc_v);
+        $category_parent = new \XoopsFormLabel(_AM_QUIZ_CATEGORY_PARENT, ob_get_clean());
+        //$category_description = new \XoopsFormDhtmlTextArea(_AM_QUIZ_CATEGORY_DESC, "cateDesc", $category_desc_v);
 
-        $options_tray = new \XoopsFormElementTray(_AM_XQUIZ_CATEGORY_DESC, '<br>');
+        $options_tray = new \XoopsFormElementTray(_AM_QUIZ_CATEGORY_DESC, '<br>');
         if (class_exists('XoopsFormEditor')) {
             $options['name']   = 'cateDesc';
             $options['value']  = $category_desc_v;
@@ -505,15 +505,15 @@ class Utility extends Common\SysUtility
             $options_tray->addElement($contents_contents);
         }
 
-        $category_weight = new \XoopsFormText(_AM_XQUIZ_CATEGORY_WEIGHT, 'cateWeight', 5, 3, $category_weight_v);
+        $category_weight = new \XoopsFormText(_AM_QUIZ_CATEGORY_WEIGHT, 'cateWeight', 5, 3, $category_weight_v);
         // $category_token = new \XoopsFormHidden("XOOPS_TOKEN_REQUEST", $GLOBALS['xoopsSecurity']->createToken());
 
         $uploadirectory = 'uploads/' . $xoopsModule->dirname() . '/category';
-        $imgtray        = new \XoopsFormElementTray(_AM_XQUIZ_CATEGORYIMG, '<br>');
+        $imgtray        = new \XoopsFormElementTray(_AM_QUIZ_CATEGORYIMG, '<br>');
 
-        $imgpath      = sprintf(_AM_XQUIZ_UPLOADEDIMG, 'uploads/' . $xoopsModule->dirname() . '/category/');
+        $imgpath      = sprintf(_AM_QUIZ_UPLOADEDIMG, 'uploads/' . $xoopsModule->dirname() . '/category/');
         $imageselect  = new \XoopsFormSelect($imgpath, 'topic_imgurl', $topicimage);
-        $topics_array = \XoopsLists:: getImgListAsArray(XOOPS_ROOT_PATH . '/uploads/xquiz/category/');
+        $topics_array = \XoopsLists:: getImgListAsArray(XOOPS_ROOT_PATH . '/uploads/quiz/category/');
         foreach ($topics_array as $image) {
             $imageselect->addOption($image, $image);
         }
@@ -521,9 +521,9 @@ class Utility extends Common\SysUtility
         $imgtray->addElement($imageselect, false);
         $imgtray->addElement(new \XoopsFormLabel('', "<br><img src='" . XOOPS_URL . '/' . $uploadirectory . '/' . $topicimage . "' name='image3' id='image3' alt=''>"));
 
-        $uploadfolder = sprintf(_AM_XQUIZ_UPLOAD_WARNING, XOOPS_URL . '/uploads/' . $xoopsModule->dirname() . '/category');
+        $uploadfolder = sprintf(_AM_QUIZ_UPLOAD_WARNING, XOOPS_URL . '/uploads/' . $xoopsModule->dirname() . '/category');
         $fileseltray  = new \XoopsFormElementTray('', '<br>');
-        $fileseltray->addElement(new \XoopsFormFile(_AM_XQUIZ_CATEGORY_PICTURE, 'attachedfile', $maxuploadsize), false);
+        $fileseltray->addElement(new \XoopsFormFile(_AM_QUIZ_CATEGORY_PICTURE, 'attachedfile', $maxuploadsize), false);
         $fileseltray->addElement(new \XoopsFormLabel($uploadfolder), false);
         $imgtray->addElement($fileseltray);
 
@@ -541,8 +541,8 @@ class Utility extends Common\SysUtility
         $addCategory_form->addElement($button_tray);
 
         self::collapsableBar('newquiz', 'topnewquiz');
-        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-		 	</a>&nbsp;" . _AM_XQUIZ_CATEGORY_NEW . "</h4><br>
+        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+		 	</a>&nbsp;" . _AM_QUIZ_CATEGORY_NEW . "</h4><br>
 				<div id='newquiz' style='text-align: center;'>";
         $addCategory_form->display();
         echo '</div>';
@@ -556,11 +556,11 @@ class Utility extends Common\SysUtility
     public static function confirmForm($id)
     {
         $delCategory_form = new \XoopsThemeForm(
-            _AM_XQUIZ_DELCATEGORY_FORM, 'delcategoryfrom', XOOPS_URL . '/modules/xquiz/admin/backend.php', 'post', true
+            _AM_QUIZ_DELCATEGORY_FORM, 'delcategoryfrom', XOOPS_URL . '/modules/quiz/admin/backend.php', 'post', true
         );
         $category_id      = new \XoopsFormHidden('categoryId', $id);
-        $category_confirm = new \XoopsFormRadioYN(_AM_XQUIZ_DELETE_CAPTION, 'delConfirm', 0);
-        $submit_button    = new \XoopsFormButton('', 'delCateSubmit', _AM_XQUIZ_SUBMIT, 'submit');
+        $category_confirm = new \XoopsFormRadioYN(_AM_QUIZ_DELETE_CAPTION, 'delConfirm', 0);
+        $submit_button    = new \XoopsFormButton('', 'delCateSubmit', _AM_QUIZ_SUBMIT, 'submit');
         //$category_token = new \XoopsFormHidden("XOOPS_TOKEN_REQUEST", $GLOBALS['xoopsSecurity']->createToken());
 
         $delCategory_form->addElement($category_id);
@@ -569,8 +569,8 @@ class Utility extends Common\SysUtility
         $delCategory_form->addElement($submit_button);
 
         self::collapsableBar('newquiz', 'topnewquiz');
-        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-				 	</a>&nbsp;" . _AM_XQUIZ_DELETE . "</h4><br>
+        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+				 	</a>&nbsp;" . _AM_QUIZ_DELETE . "</h4><br>
 						<div id='newquiz' style='text-align: center;'>";
         $delCategory_form->display();
         echo '</div>';

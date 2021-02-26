@@ -2,7 +2,7 @@
 
 /**
  * ****************************************************************************
- * xquiz - MODULE FOR XOOPS
+ * quiz - MODULE FOR XOOPS
  * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
  *
  * You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@
  *
  * @copyright          XOOPS Project (https://xoops.org)
  * @license            http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package            xquiz
+ * @package            quiz
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
@@ -22,7 +22,7 @@
  */
 
 use Xmf\Module\Admin;
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Helper
 };
 /** @var Admin $adminObject */
@@ -44,49 +44,49 @@ if (is_object($helper->getModule())) {
 }
 
 $adminmenu[] = [
-    'title' => _MI_XQUIZ_INDEX,
+    'title' => _MI_QUIZ_INDEX,
     'link'  => 'admin/index.php',
     'icon'  => $pathIcon32 . '/home.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_XQUIZ_MENU_01,
+    'title' => _MI_QUIZ_MENU_01,
     'link'  => 'admin/main.php',
     'icon' => $pathIcon32 . '/manage.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_XQUIZ_CATEGORY,
+    'title' => _MI_QUIZ_CATEGORY,
     'link'  => 'admin/main.php?op=Category',
     'icon' => $pathIcon32 . '/category.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_XQUIZ_QUIZS,
+    'title' => _MI_QUIZ_QUIZS,
     'link'  => 'admin/main.php?op=Quiz',
     'icon'  => 'assets/images/menus/tquizzes.png',
 ];
 
 //$adminmenu[] = [
-//'title' => _MI_XQUIZ_QUESTIONS . "",
+//'title' => _MI_QUIZ_QUESTIONS . "",
 //'link' => 'admin/main.php?op=Quest',
 //'icon' => 'assets/images/menus/tquestions.png',
 //];
 
 $adminmenu[] = [
-    'title' => _MI_XQUIZ_QUESTIONS . '',
+    'title' => _MI_QUIZ_QUESTIONS . '',
     'link'  => 'admin/main.php?op=Question',
     'icon'  => 'assets/images/menus/tquestions.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_XQUIZ_STATISTICS,
+    'title' => _MI_QUIZ_STATISTICS,
     'link'  => 'admin/main.php?op=Statistics',
     'icon'  => 'assets/images/menus/tstatistic.png',
 ];
 
 $adminmenu[] = [
-    'title' => _MI_MD_XQUIZ_PERMISSIONS,
+    'title' => _MI_MD_QUIZ_PERMISSIONS,
     'link'  => 'admin/main.php?op=Permission',
     'icon'  => 'assets/images/menus/tpermmision.png',
 ];
@@ -108,7 +108,14 @@ if (is_object($helper->getModule()) && $helper->getConfig('displayDeveloperTools
 }
 
 $adminmenu[] = [
-    'title' => _MI_XQUIZ_MENU_ABOUT,
+    'title' => _MI_QUIZ_MENU_PERMISSIONS,
+    'link'  => 'admin/permissions.php',
+    'icon'  => $pathIcon32 . '/permissions.png',
+];
+
+
+$adminmenu[] = [
+    'title' => _MI_QUIZ_MENU_ABOUT,
     'link'  => 'admin/about.php',
     'icon'  => $pathIcon32 . '/about.png',
 ];

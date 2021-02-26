@@ -1,10 +1,10 @@
 <?php
 
-namespace XoopsModules\Xquiz;
+namespace XoopsModules\Quiz;
 
 /**
  * ****************************************************************************
- * xquiz - MODULE FOR XOOPS
+ * quiz - MODULE FOR XOOPS
  * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
  *
  * You may not change or alter any portion of this comment or credits
@@ -16,7 +16,7 @@ namespace XoopsModules\Xquiz;
  *
  * @copyright          XOOPS Project (https://xoops.org)
  * @license            http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package            xquiz
+ * @package            quiz
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
@@ -28,7 +28,7 @@ require_once XOOPS_ROOT_PATH . '/class/xoopsform/grouppermform.php';
 
 /**
  * Class Category
- * @package XoopsModules\Xquiz
+ * @package XoopsModules\Quiz
  */
 class Category extends \XoopsTree
 {
@@ -272,7 +272,7 @@ class Category extends \XoopsTree
     public static function retrieveCategory($eId)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT cid,title FROM ' . $xoopsDB->prefix('xquiz_categories') . " WHERE cid = '$eId'");
+        $query = $xoopsDB->query('SELECT cid,title FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE cid = '$eId'");
         $myrow = $xoopsDB->fetchArray($query);
         return $myrow;
     }
@@ -332,12 +332,12 @@ class Category extends \XoopsTree
     public static function addCategory($title, $pid, $desc, $imgurl, $weight)
     {
         global $xoopsDB;
-        $query = 'Insert into ' . $xoopsDB->prefix('xquiz_categories') . "(cid ,pid ,title ,description ,imgurl ,weight)
+        $query = 'Insert into ' . $xoopsDB->prefix('quiz_categories') . "(cid ,pid ,title ,description ,imgurl ,weight)
 				VALUES (NULL , '$pid', '$title', '$desc', '$imgurl', '$weight');";
         $res   = $xoopsDB->query($query);
 
         if (!$res) {
-            throw new \Exception(_AM_XQUIZ_QUEST_DATABASE);
+            throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
 
         return $xoopsDB->getInsertId();
@@ -355,7 +355,7 @@ class Category extends \XoopsTree
     public static function editCategory($cid, $title, $pid, $desc, $imgurl, $weight)
     {
         global $xoopsDB;
-        $query = 'UPDATE ' . $xoopsDB->prefix('xquiz_categories') . " SET 
+        $query = 'UPDATE ' . $xoopsDB->prefix('quiz_categories') . " SET 
 					  pid = '$pid'
 					 ,title = '$title'
 					 ,description = '$desc'
@@ -366,7 +366,7 @@ class Category extends \XoopsTree
         $res = $xoopsDB->query($query);
 
         if (!$res) {
-            throw new \Exception(_AM_XQUIZ_QUEST_DATABASE);
+            throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
     }
 
@@ -377,31 +377,31 @@ class Category extends \XoopsTree
     public static function deleteCategory($id)
     {
         global $xoopsDB;
-        $xt   = new Category($xoopsDB->prefix('xquiz_categories'), 'cid', 'pid');
+        $xt   = new Category($xoopsDB->prefix('quiz_categories'), 'cid', 'pid');
         $list = $xt->getAllChildId($id);
 
         global $module_id;
         $perm_name = 'quiz_view';
-        $query     = 'DELETE FROM ' . $xoopsDB->prefix('xquiz_categories') . " WHERE  
+        $query     = 'DELETE FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE  
 					  cid = '$id' ";
         $res       = $xoopsDB->query($query);
         xoops_groupperm_deletebymoditem($module_id, $perm_name, $id);
         if (!$res) {
-            throw new \Exception(_AM_XQUIZ_QUEST_DATABASE);
+            throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
         //delet quiz of category
-        $query = 'DELETE FROM ' . $xoopsDB->prefix('xquiz_quizzes') . " WHERE  
+        $query = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE  
 					  cid = '$id' ";
         $res   = $xoopsDB->query($query);
         xoops_groupperm_deletebymoditem($module_id, $perm_name, $id);
         if (!$res) {
-            throw new \Exception(_AM_XQUIZ_QUEST_DATABASE);
+            throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
 
         //Delete subcategories and subquizs
         foreach ($list as $cid) {
             $perm_name = 'quiz_view';
-            $query     = 'DELETE FROM ' . $xoopsDB->prefix('xquiz_categories') . " WHERE  
+            $query     = 'DELETE FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE  
 						cid = '$cid' ";
             $res       = $xoopsDB->query($query);
             xoops_groupperm_deletebymoditem($module_id, $perm_name, $cid);
@@ -412,15 +412,15 @@ class Category extends \XoopsTree
     public static function category_permissionForm()
     {
         global $module_id, $xoopsDB;
-        $xt = new Category($xoopsDB->prefix('xquiz_categories'), 'cid', 'pid');
+        $xt = new Category($xoopsDB->prefix('quiz_categories'), 'cid', 'pid');
         if (!$xt->getChildTreeArray(0)) {
-            throw new \Exception(_AM_XQUIZ_NO_CATEGORY);
+            throw new \Exception(_AM_QUIZ_NO_CATEGORY);
         }
         $listCategory  = $xt->getChildTreeArray(0, 'title');
-        $title_of_form = _AM_XQUIZ_PERM_FORM_TITLE;
+        $title_of_form = _AM_QUIZ_PERM_FORM_TITLE;
         $perm_name     = 'quiz_view';
-        $perm_desc     = _AM_XQUIZ_PERM_FORM_DESC;
-        $form          = new \XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc);
+        $perm_desc     = _AM_QUIZ_PERM_FORM_DESC;
+        $form          = new \XoopsGroupPermForm($title_of_form, $module_id, $perm_name, $perm_desc, 'admin/permissions.php');
 
         foreach ($listCategory as $key) {
             $form->addItem($key['cid'], $key['title'], $key['pid']);
@@ -435,7 +435,7 @@ class Category extends \XoopsTree
     public static function checkExistCategory($cid)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('xquiz_categories') . " WHERE cid='$cid'");
+        $query = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE cid='$cid'");
         $res   = $xoopsDB->getRowsNum($query);
 
         if ($res > 0) {

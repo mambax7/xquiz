@@ -1,12 +1,12 @@
 <?php
 
-namespace XoopsModules\Xquiz;
+namespace XoopsModules\Quiz;
 
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 
 /**
  * Class Questions
- * @package XoopsModules\Xquiz
+ * @package XoopsModules\Quiz
  */
 class Questions
 {
@@ -21,7 +21,7 @@ class Questions
     private       $question;
     private       $score;
     private       $answers;
-    public static $qTypes = ['MC' => _AM_XQUIZ_ANSWER_TYPE_MC, 'CM' => _AM_XQUIZ_ANSWER_TYPE_CM, 'FB' => _AM_XQUIZ_ANSWER_TYPE_FB];
+    public static $qTypes = ['MC' => _AM_QUIZ_ANSWER_TYPE_MC, 'CM' => _AM_QUIZ_ANSWER_TYPE_CM, 'FB' => _AM_QUIZ_ANSWER_TYPE_FB];
 
     /**
      * @return array
@@ -168,7 +168,7 @@ class Questions
         global $xoopsDB;
         $listQuiz = [];
         $q        = 1;
-        $query    = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('xquiz_questions') . ' WHERE quiz_id = ' . $qid . ' LIMIT ' . $eu . ' , ' . $limit);
+        $query    = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . ' WHERE quiz_id = ' . $qid . ' LIMIT ' . $eu . ' , ' . $limit);
         while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
             $listQuiz [$q] ['id']       = $myrow ['question_id'];
             $listQuiz [$q] ['qid']      = $myrow ['quiz_id'];
@@ -194,7 +194,7 @@ class Questions
     public static function questions_numOfQuestions($qId)
     {
         global $xoopsDB;
-        $result = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('xquiz_questions') . " WHERE quiz_id = $qId");
+        $result = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = $qId");
         return $xoopsDB->getRowsNum($result);
     }
 
@@ -218,32 +218,32 @@ class Questions
         $listQuestion = self::questions_list($start, $limit, $qid);
 
         Utility::collapsableBar('newsub', 'topnewsubicon');
-        $temp = "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-				 </a>&nbsp;" . _AM_XQUIZ_QUESTIONS . "</h4><br>
+        $temp = "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewsubicon' name='topnewsubicon' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+				 </a>&nbsp;" . _AM_QUIZ_QUESTIONS . "</h4><br>
 					<div id='newsub' style='text-align: center;'>
 					<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>
 					<tr class='bg3'>
 					    <th>
-							" . _AM_XQUIZ_QUEST_NUM . '
+							" . _AM_QUIZ_QUEST_NUM . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_QUEST_NAME . '
+							' . _AM_QUIZ_QUEST_NAME . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_QUEST_SCORE . '
+							' . _AM_QUIZ_QUEST_SCORE . '
 						</th>					
 						<th>
-							' . _AM_XQUIZ_ANSWER_TYPE . '
+							' . _AM_QUIZ_ANSWER_TYPE . '
 						</th>
 						<th>
-							' . _AM_XQUIZ_ACTION . '
+							' . _AM_QUIZ_ACTION . '
 						</th>
 					</tr>';
 
         $class = 'even';
 
-        $delImage  = '<img src= "' . XOOPS_URL . '/modules/xquiz/assets/images/delete.png " title=' . _AM_XQUIZ_DEL . " alt='' >";
-        $editImage = '<img src= "' . XOOPS_URL . '/modules/xquiz/assets/images/edit.png " title=' . _AM_XQUIZ_EDIT . " alt='' >";
+        $delImage  = '<img src= "' . XOOPS_URL . '/modules/quiz/assets/images/delete.png " title=' . _AM_QUIZ_DEL . " alt='' >";
+        $editImage = '<img src= "' . XOOPS_URL . '/modules/quiz/assets/images/edit.png " title=' . _AM_QUIZ_EDIT . " alt='' >";
         $ts        = \MyTextSanitizer::getInstance();
         foreach ($listQuestion as $key) {
             $class = ('even' == $class) ? 'odd' : 'even';
@@ -264,10 +264,10 @@ class Questions
 				' . self::$qTypes [$key ['type']] . '
 				</td>
 				<td>
-				<a href="' . XOOPS_URL . '/modules/xquiz/admin/main.php?op=Question&act=del&Id=' . $key ['id'] . '&qId=' . $key ['qid'] . '">
+				<a href="' . XOOPS_URL . '/modules/quiz/admin/main.php?op=Question&act=del&Id=' . $key ['id'] . '&qId=' . $key ['qid'] . '">
 				' . $delImage . '
 				</a>
-				<a href="' . XOOPS_URL . '/modules/xquiz/admin/main.php?op=Question&act=edit&Id=' . $key ['id'] . '&qId=' . $key ['qid'] . '">
+				<a href="' . XOOPS_URL . '/modules/quiz/admin/main.php?op=Question&act=edit&Id=' . $key ['id'] . '&qId=' . $key ['qid'] . '">
 				' . $editImage . '
 				</a>
 				</td>
@@ -292,20 +292,20 @@ class Questions
      */
     public static function QuestAddForm($qId, $type = 'MC')
     {
-        $addQuest_form = new \XoopsThemeForm(_AM_QUEST_FORM, 'addquestfrom', XOOPS_URL . '/modules/xquiz/admin/backend.php', 'post', true);
+        $addQuest_form = new \XoopsThemeForm(_AM_QUEST_FORM, 'addquestfrom', XOOPS_URL . '/modules/quiz/admin/backend.php', 'post', true);
 
         $question_qid_v      = $qId;
         $question_question_v = '';
         $question_number_v   = self::questionNumber($qId) + 1;
 
-        $submit_button      = new \XoopsFormButton('', 'addQstSubmit', _AM_XQUIZ_SUBMIT, 'submit');
-        $quest_list_array_v = Quiz::quiz_listQuizArray();
-        $quiz_name          = new \XoopsFormSelect(_AM_XQUIZ_NAME, 'quizId', $question_qid_v);
+        $submit_button      = new \XoopsFormButton('', 'addQstSubmit', _AM_QUIZ_SUBMIT, 'submit');
+        $quest_list_array_v = QuizBase::quiz_listQuizArray();
+        $quiz_name          = new \XoopsFormSelect(_AM_QUIZ_NAME, 'quizId', $question_qid_v);
         $quiz_name->addOptionArray($quest_list_array_v);
-        $question_number = new \XoopsFormText(_AM_XQUIZ_QUEST_TOTAL, 'questionNumber', 15, 5, $question_number_v);
-        $question_score  = new \XoopsFormText(_AM_XQUIZ_QUEST_SCORE, 'questionScore', 15, 5);
+        $question_number = new \XoopsFormText(_AM_QUIZ_QUEST_TOTAL, 'questionNumber', 15, 5, $question_number_v);
+        $question_score  = new \XoopsFormText(_AM_QUIZ_QUEST_SCORE, 'questionScore', 15, 5);
         global $xoopsModuleConfig;
-        $options_tray = new \XoopsFormElementTray(_AM_XQUIZ_QUEST_DESC, '<br>');
+        $options_tray = new \XoopsFormElementTray(_AM_QUIZ_QUEST_DESC, '<br>');
         if (class_exists('XoopsFormEditor')) {
             $options ['name']   = 'questionDesc';
             $options ['value']  = $question_question_v;
@@ -316,44 +316,44 @@ class Questions
             $contents_contents  = new \XoopsFormEditor('', $xoopsModuleConfig ['editorUser'], $options);
             $options_tray->addElement($contents_contents);
         } else {
-            $contents_contents = new \XoopsFormDhtmlTextArea(_MD_XQUIZ_QUEST_DESC, 'questionDesc', $question_question_v);
+            $contents_contents = new \XoopsFormDhtmlTextArea(_MD_QUIZ_QUEST_DESC, 'questionDesc', $question_question_v);
             $options_tray->addElement($contents_contents);
         }
         switch ($type) {
             case 'CM':
                 $cor_val = 'checkbox';
-                $thead   = '<th>' . _AM_XQUIZ_QUEST_ANSWER . '</th>';
+                $thead   = '<th>' . _AM_QUIZ_QUEST_ANSWER . '</th>';
                 break;
             case 'FB':
                 $cor_val = 'blank';
                 break;
             default:
                 $cor_val = 'radio';
-                $thead   = '<th>' . _AM_XQUIZ_QUEST_ANSWER . '</th>';
+                $thead   = '<th>' . _AM_QUIZ_QUEST_ANSWER . '</th>';
         }
         ob_start();
-        $addImage = '<img src= "' . XOOPS_URL . '/modules/xquiz/assets/images/Add_Ans.png " title=' . _AM_XQUIZ_ADD_ANSWER . '>';
-        echo "<script type='text/javascript' src='" . XOOPS_URL . "/modules/xquiz/assets/js/table.js'></script>
+        $addImage = '<img src= "' . XOOPS_URL . '/modules/quiz/assets/images/Add_Ans.png " title=' . _AM_QUIZ_ADD_ANSWER . '>';
+        echo "<script type='text/javascript' src='" . XOOPS_URL . "/modules/quiz/assets/js/table.js'></script>
 			<table width='100%' cellspacing='1' cellpadding='3' border='0' id='tblQuiz' >
 				<thead>
 					<tr>
 						<th colspan='5'>
 						$addImage
-						<input type='button' value='" . _AM_XQUIZ_ADD_ANSWER . "' onclick='xquiz_addRowToTable(null,\"$cor_val\");'>
+						<input type='button' value='" . _AM_QUIZ_ADD_ANSWER . "' onclick='quiz_addRowToTable(null,\"$cor_val\");'>
 						</th>
 					</tr>
 					<tr>
 						<th>#</th>
 						$thead
-						<th>" . _AM_XQUIZ_ANSWER_TEXT . '</th>
-						<th>' . _AM_XQUIZ_DELET_ANS . '</th>
+						<th>" . _AM_QUIZ_ANSWER_TEXT . '</th>
+						<th>' . _AM_QUIZ_DELET_ANS . '</th>
 					</tr>
 				</thead>
 				<tbody>
 				</tbody>
 			</table>';
 
-        $ansFormTable = new \XoopsFormLabel(_AM_XQUIZ_ANSWERS_LABEL, ob_get_clean());
+        $ansFormTable = new \XoopsFormLabel(_AM_QUIZ_ANSWERS_LABEL, ob_get_clean());
 
         $question_type = new \XoopsFormHidden('type', $type);
         //$question_token = new \XoopsFormHidden("XOOPS_TOKEN_REQUEST", $GLOBALS ['xoopsSecurity']->createToken());
@@ -369,8 +369,8 @@ class Questions
         $addQuest_form->addElement($submit_button, true);
 
         Utility::collapsableBar('newquiz', 'topnewquiz');
-        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-				 	</a>&nbsp;" . _AM_XQUIZ_QUEST_NEW . "</h4><br>
+        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+				 	</a>&nbsp;" . _AM_QUIZ_QUEST_NEW . "</h4><br>
 						<div id='newquiz' style='text-align: center;'>";
         $addQuest_form->display();
         echo '</div>';
@@ -386,22 +386,22 @@ class Questions
      */
     public function QuestEditForm($questId)
     {
-        $editQuest_form = new \XoopsThemeForm(_AM_QUEST_FORM, 'editquestfrom', XOOPS_URL . '/modules/xquiz/admin/backend.php', 'post', true);
+        $editQuest_form = new \XoopsThemeForm(_AM_QUEST_FORM, 'editquestfrom', XOOPS_URL . '/modules/quiz/admin/backend.php', 'post', true);
 
         $this->retrieveQuestion($questId);
         ////////////////////temp
         $question_id = new \XoopsFormHidden('questionId', $this->getId());
         ////////
-        $question_number = new \XoopsFormText(_AM_XQUIZ_QUEST_TOTAL, 'questionNumber', 15, 5, $this->getQnumber());
+        $question_number = new \XoopsFormText(_AM_QUIZ_QUEST_TOTAL, 'questionNumber', 15, 5, $this->getQnumber());
 
-        $submit_button = new \XoopsFormButton('', 'editQstSubmit', _AM_XQUIZ_SUBMIT, 'submit');
+        $submit_button = new \XoopsFormButton('', 'editQstSubmit', _AM_QUIZ_SUBMIT, 'submit');
 
-        $quest_list_array_v = Quiz::quiz_listQuizArray();
-        $quiz_name          = new \XoopsFormSelect(_AM_XQUIZ_NAME, 'quizId', $this->getQid());
+        $quest_list_array_v = QuizBase::quiz_listQuizArray();
+        $quiz_name          = new \XoopsFormSelect(_AM_QUIZ_NAME, 'quizId', $this->getQid());
         $quiz_name->addOptionArray($quest_list_array_v);
-        $question_score = new \XoopsFormText(_AM_XQUIZ_QUEST_SCORE, 'questionScore', 15, 5, $this->getScore());
+        $question_score = new \XoopsFormText(_AM_QUIZ_QUEST_SCORE, 'questionScore', 15, 5, $this->getScore());
         global $xoopsModuleConfig;
-        $options_tray = new \XoopsFormElementTray(_AM_XQUIZ_QUEST_DESC, '<br>');
+        $options_tray = new \XoopsFormElementTray(_AM_QUIZ_QUEST_DESC, '<br>');
         if (class_exists('XoopsFormEditor')) {
             $options ['name']   = 'questionDesc';
             $options ['value']  = $this->getQuestion();
@@ -412,16 +412,16 @@ class Questions
             $contents_contents  = new \XoopsFormEditor('', $xoopsModuleConfig ['editorUser'], $options);
             $options_tray->addElement($contents_contents);
         } else {
-            $contents_contents = new \XoopsFormDhtmlTextArea(_MD_XQUIZ_QUEST_DESC, 'questionDesc', $this->getQuestion());
+            $contents_contents = new \XoopsFormDhtmlTextArea(_MD_QUIZ_QUEST_DESC, 'questionDesc', $this->getQuestion());
             $options_tray->addElement($contents_contents);
         }
         $strAdd   = '';
-        $addImage = '<img src= "' . XOOPS_URL . '/modules/xquiz/assets/images/Add_Ans.png " title=' . _AM_XQUIZ_ADD_ANSWER . '>';
-        $delImage = '<img src= "' . XOOPS_URL . "/modules/xquiz/assets/images/delete.png \" onclick = 'xquiz_deleteCurrentRow(this)' title=" . _AM_XQUIZ_DELET_ANS . '>';
+        $addImage = '<img src= "' . XOOPS_URL . '/modules/quiz/assets/images/Add_Ans.png " title=' . _AM_QUIZ_ADD_ANSWER . '>';
+        $delImage = '<img src= "' . XOOPS_URL . "/modules/quiz/assets/images/delete.png \" onclick = 'quiz_deleteCurrentRow(this)' title=" . _AM_QUIZ_DELET_ANS . '>';
         switch ($this->type) {
             case 'CM':
                 $cor_val = 'checkbox';
-                $thead   = '<th>' . _AM_XQUIZ_QUEST_ANSWER . '</th>';
+                $thead   = '<th>' . _AM_QUIZ_QUEST_ANSWER . '</th>';
                 $i       = 1;
                 foreach ($this->answers as $answer) {
                     $check = '';
@@ -465,7 +465,7 @@ class Questions
                 break;
             default:
                 $cor_val = 'radio';
-                $thead   = '<th>' . _AM_XQUIZ_QUEST_ANSWER . '</th>';
+                $thead   = '<th>' . _AM_QUIZ_QUEST_ANSWER . '</th>';
                 $i       = 1;
                 foreach ($this->answers as $answer) {
                     $check = '';
@@ -489,20 +489,20 @@ class Questions
                 }
         }
         ob_start();
-        echo "<script type='text/javascript' src='" . XOOPS_URL . "/modules/xquiz/assets/js/table.js'></script>
+        echo "<script type='text/javascript' src='" . XOOPS_URL . "/modules/quiz/assets/js/table.js'></script>
 			<table width='100%' cellspacing='1' cellpadding='3' border='0' id='tblQuiz' >
 				<thead>
 					<tr>
 						<th colspan='5'>
 						$addImage
-						<input type='button' value='" . _AM_XQUIZ_ADD_ANSWER . "' onclick='xquiz_addRowToTable(null,\"$cor_val\");'>
+						<input type='button' value='" . _AM_QUIZ_ADD_ANSWER . "' onclick='quiz_addRowToTable(null,\"$cor_val\");'>
 						</th>
 					</tr>
 					<tr>
 						<th>#</th>
 						$thead
-						<th>" . _AM_XQUIZ_ANSWER_TEXT . '</th>
-						<th>' . _AM_XQUIZ_DELET_ANS . "</th>
+						<th>" . _AM_QUIZ_ANSWER_TEXT . '</th>
+						<th>' . _AM_QUIZ_DELET_ANS . "</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -510,7 +510,7 @@ class Questions
 				</tbody>
 			</table>";
 
-        $ansFormTable = new \XoopsFormLabel(_AM_XQUIZ_ANSWERS_LABEL, ob_get_clean());
+        $ansFormTable = new \XoopsFormLabel(_AM_QUIZ_ANSWERS_LABEL, ob_get_clean());
 
         $question_type = new \XoopsFormHidden('type', $this->getType());
         //$question_token = new \XoopsFormHidden("XOOPS_TOKEN_REQUEST", $GLOBALS ['xoopsSecurity']->createToken());
@@ -526,8 +526,8 @@ class Questions
         $editQuest_form->addElement($submit_button, true);
 
         Utility::collapsableBar('newquiz', 'topnewquiz');
-        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-				 	</a>&nbsp;" . _AM_XQUIZ_QUEST_NEW . "</h4><br>
+        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+				 	</a>&nbsp;" . _AM_QUIZ_QUEST_NEW . "</h4><br>
 						<div id='newquiz' style='text-align: center;'>";
         $editQuest_form->display();
         echo '</div>';
@@ -539,7 +539,7 @@ class Questions
      */
     public static function showQuizSelectForm()
     {
-        $list = Quiz::allQuizs();
+        $list = QuizBase::allQuizs();
 
         echo "<div id='newsel' style='text-align: center;'>
 					<table width='100%' cellspacing='1' cellpadding='3' border='0' class='outer'>
@@ -547,7 +547,7 @@ class Questions
 							<td>
 							<form method='get' action='main.php' onchange=\"MM_jumpMenu('parent',this,0)\">
 								<input type='hidden' name='op' value='Question'>
-								<label>" . _AM_XQUIZ_QUIZS_SELECT . "
+								<label>" . _AM_QUIZ_QUIZS_SELECT . "
 									<select name='Id'>";
         foreach ($list as $key) {
             echo "<option value='" . $key ['id'] . "'>" . $key ['name'] . '</option>';
@@ -555,14 +555,14 @@ class Questions
 
         echo "						</select>
 								</lable>
-								<input type='submit' value='" . _AM_XQUIZ_QUESTION_GO . "'>
+								<input type='submit' value='" . _AM_QUIZ_QUESTION_GO . "'>
 							</form>
 							</td>
 							<td>
 							<form method='get' action='main.php'>
 							<input type='hidden' name='op' value='Question'>
 							<input type='hidden' name='act' value='add'>
-							<label>" . _AM_XQUIZ_QUIZS_SELECT . "
+							<label>" . _AM_QUIZ_QUIZS_SELECT . "
 									<select name='Id'>";
         foreach ($list as $key) {
             echo "<option value='" . $key ['id'] . "'>" . $key ['name'] . '</option>';
@@ -570,7 +570,7 @@ class Questions
 
         echo '						</select>
 							</lable>
-							<label>' . _AM_XQUIZ_ANSWER_TYPE . "
+							<label>' . _AM_QUIZ_ANSWER_TYPE . "
 									<select name='type'>";
         foreach (self::$qTypes as $key => $value) {
             echo "<option value='$key'>$value</option>";
@@ -579,7 +579,7 @@ class Questions
         echo "						</select>
 							</lable>
 								
-							<input type='submit' value='" . _AM_XQUIZ_NEW_QUEST . "'>
+							<input type='submit' value='" . _AM_QUIZ_NEW_QUEST . "'>
 							</form>
 							</td>							
 						</tr>
@@ -602,7 +602,7 @@ class Questions
     public function addQuestion($ans, $is_cor)
     {
         global $xoopsDB;
-        $query = 'Insert into ' . $xoopsDB->prefix('xquiz_questions') . "
+        $query = 'Insert into ' . $xoopsDB->prefix('quiz_questions') . "
 				(quiz_id,question_type,question,qnumber,score)
 				VALUES ( '$this->qid', '$this->type', '$this->question','$this->qnumber',
 				'$this->score');";
@@ -623,7 +623,7 @@ class Questions
         }
 
         if (!$res) {
-            throw new \Exception(_AM_XQUIZ_QUEST_DATABASE);
+            throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
     }
 
@@ -639,7 +639,7 @@ class Questions
     public static function questionNumber($quizId)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT COUNT(quiz_id) AS CID FROM ' . $xoopsDB->prefix('xquiz_questions') . " WHERE quiz_id = '$quizId'");
+        $query = $xoopsDB->query('SELECT COUNT(quiz_id) AS CID FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = '$quizId'");
         $myrow = $xoopsDB->fetchArray($query);
         return $myrow ['CID'];
     }
@@ -656,14 +656,14 @@ class Questions
     {
         global $xoopsDB;
         $this->id       = $questId;
-        $query          = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('xquiz_questions') . " WHERE question_id = '$this->id'");
+        $query          = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE question_id = '$this->id'");
         $myrow          = $xoopsDB->fetchArray($query);
         $this->qid      = $myrow ['quiz_id'];
         $this->qnumber  = $myrow ['qnumber'];
         $this->score    = $myrow ['score'];
         $this->type     = $myrow ['question_type'];
         $this->question = $myrow ['question'];
-        $query          = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('xquiz_answers') . " WHERE question_id = '$this->id'");
+        $query          = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_answers') . " WHERE question_id = '$this->id'");
 
         while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
             $answerObj = new Answer();
@@ -689,7 +689,7 @@ class Questions
     public function editQuestion($ans, $is_cor)
     {
         global $xoopsDB;
-        $query = 'UPDATE ' . $xoopsDB->prefix('xquiz_questions') . " SET 
+        $query = 'UPDATE ' . $xoopsDB->prefix('quiz_questions') . " SET 
 					  quiz_id = '$this->qid'
 					 ,question = '$this->question'
 					 ,qnumber = '$this->qnumber'
@@ -711,7 +711,7 @@ class Questions
             $this->answers[] = $answerObj;
         }
         if (!$res) {
-            throw new \Exception(_AM_XQUIZ_QUEST_DATABASE);
+            throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
     }
 
@@ -722,12 +722,12 @@ class Questions
     public function deleteQuestion()
     {
         global $xoopsDB;
-        $query = 'DELETE FROM ' . $xoopsDB->prefix('xquiz_questions') . " WHERE  
+        $query = 'DELETE FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE  
 					  question_id = '$this->id' ";
         $res   = $xoopsDB->query($query);
         Answer::deleteAnswers($this->id);
         if (!$res) {
-            throw new \Exception(_AM_XQUIZ_QUEST_DATABASE);
+            throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
     }
 
@@ -741,11 +741,11 @@ class Questions
      */
     public static function confirmForm($id)
     {
-        $delQuest_form = new \XoopsThemeForm(_AM_XQUIZ_DELQUESTFORM, 'delqstfrom', XOOPS_URL . '/modules/xquiz/admin/backend.php', 'post', true);
+        $delQuest_form = new \XoopsThemeForm(_AM_QUIZ_DELQUESTFORM, 'delqstfrom', XOOPS_URL . '/modules/quiz/admin/backend.php', 'post', true);
         $quest_id      = new \XoopsFormHidden('questId', $id);
         $quiz_id       = new \XoopsFormHidden('quizId', $qid);
-        $quest_confirm = new \XoopsFormRadioYN(_AM_XQUIZ_DELETE_CAPTION, 'delConfirm', 0);
-        $submit_button = new \XoopsFormButton('', 'delQstSubmit', _AM_XQUIZ_SUBMIT, 'submit');
+        $quest_confirm = new \XoopsFormRadioYN(_AM_QUIZ_DELETE_CAPTION, 'delConfirm', 0);
+        $submit_button = new \XoopsFormButton('', 'delQstSubmit', _AM_QUIZ_SUBMIT, 'submit');
         //$quest_token   = new \XoopsFormHidden("XOOPS_TOKEN_REQUEST", $GLOBALS ['xoopsSecurity']->createToken());
 
         $delQuest_form->addElement($quest_id);
@@ -754,8 +754,8 @@ class Questions
         $delQuest_form->addElement($submit_button);
 
         Utility::collapsableBar('newquiz', 'topnewquiz');
-        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/xquiz/assets/images/close12.gif' alt=''>
-				 	</a>&nbsp;" . _AM_XQUIZ_DELETE . "</h4><br>
+        echo "<img onclick=\"toggle('toptable'); toggleIcon('toptableicon');\" id='topnewquiz' name='topnewquiz' src='" . XOOPS_URL . "/modules/quiz/assets/images/close12.gif' alt=''>
+				 	</a>&nbsp;" . _AM_QUIZ_DELETE . "</h4><br>
 						<div id='newquiz' style='text-align: center;'>";
         $delQuest_form->display();
         echo '</div>';
@@ -775,14 +775,14 @@ class Questions
         global $xoopsDB;
         $listQuest = [];
         $q         = 1;
-        $query     = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('xquiz_questions') . " WHERE quiz_id = $qId");
+        $query     = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = $qId");
         while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
             $listQuest[$q]['question_id']   = $myrow['question_id'];
             $listQuest[$q]['question_type'] = $myrow['question_type'];
             $listQuest[$q]['question']      = $myrow['question'];
             $listQuest[$q]['qnumber']       = $myrow['qnumber'];
             $listQuest[$q]['score']         = $myrow['score'];
-            $qry                            = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('xquiz_answers') . ' WHERE question_id = ' . $myrow['question_id']);
+            $qry                            = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_answers') . ' WHERE question_id = ' . $myrow['question_id']);
             if (0 != $xoopsDB->getRowsNum($qry)) {
                 $listQuest[$q]['answer'] = [];
                 $t                       = 1;

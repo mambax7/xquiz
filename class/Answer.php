@@ -1,10 +1,10 @@
 <?php
 
-namespace XoopsModules\Xquiz;
+namespace XoopsModules\Quiz;
 
 /**
  * Class Answer
- * @package XoopsModules\Xquiz
+ * @package XoopsModules\Quiz
  */
 class Answer
 {
@@ -107,7 +107,7 @@ class Answer
             $this->is_correct = '0';
         }
         global $xoopsDB;
-        $query = 'INSERT into ' . $xoopsDB->prefix('xquiz_answers') . "(question_id ,is_correct ,answer)
+        $query = 'INSERT into ' . $xoopsDB->prefix('quiz_answers') . "(question_id ,is_correct ,answer)
 				VALUES ('$this->questId', '$this->is_correct', '$this->answer');";
         $res   = $xoopsDB->query($query);
 
@@ -131,7 +131,7 @@ class Answer
     {
         global $xoopsDB;
         $questionId = $xoopsDB->escape($questionId);
-        $query      = 'DELETE FROM ' . $xoopsDB->prefix('xquiz_answers') . " WHERE  
+        $query      = 'DELETE FROM ' . $xoopsDB->prefix('quiz_answers') . " WHERE  
 					  question_id = '$questionId' ";
         $res        = $xoopsDB->query($query);
         if (!$res) {

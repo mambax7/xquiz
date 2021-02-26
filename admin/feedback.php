@@ -21,8 +21,8 @@
 
 use Xmf\Module\Admin;
 use Xmf\Request;
-use XoopsModules\Xquiz\Common;
-use XoopsModules\Xquiz\Common\ModuleFeedback;
+use XoopsModules\Quiz\Common;
+use XoopsModules\Quiz\Common\ModuleFeedback;
 
 include __DIR__ . '/admin_header.php';
 

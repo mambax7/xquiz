@@ -6,16 +6,16 @@ var hasLoaded = false;
 var DELETE_IMAGE = '../assets/images/delete.png';
 
 
-window.onload=xquiz_fillInRows;
+window.onload=quiz_fillInRows;
 
-function xquiz_fillInRows()
+function quiz_fillInRows()
 {
 	hasLoaded = true;
 }
 
 // CONFIG:
-// xquiz_myRowObject is an object for storing information about the table rows
-function xquiz_myRowObject(one, two, three)
+// quiz_myRowObject is an object for storing information about the table rows
+function quiz_myRowObject(one, two, three)
 {
 	this.one = one; // text object
 	this.two = two; // input text object
@@ -23,10 +23,10 @@ function xquiz_myRowObject(one, two, three)
 }
 
 /*
- * xquiz_addRowToTable
+ * quiz_addRowToTable
  * Inserts at row 'num', or appends to the end if no arguments are passed in. Don't pass in empty strings.
  */
-function xquiz_addRowToTable(num,op)
+function quiz_addRowToTable(num,op)
 {
 	if (hasLoaded) {
 		var tbl = document.getElementById(TABLE_NAME);
@@ -99,48 +99,48 @@ function xquiz_addRowToTable(num,op)
 		var btnEl = document.createElement('img');
 		btnEl.setAttribute('src', DELETE_IMAGE);
 		btnEl.setAttribute('title', 'Delete');
-		btnEl.onclick = function () {xquiz_deleteCurrentRow(this)};
+		btnEl.onclick = function () {quiz_deleteCurrentRow(this)};
 		cell2.appendChild(btnEl);
 		
 		// Pass in the elements you want to reference later
 		// Store the myRow object in each row
-		row.myRow = new xquiz_myRowObject(textNode, txtInp, raEl);
+		row.myRow = new quiz_myRowObject(textNode, txtInp, raEl);
 	}
 }
 
 
 // If there isn't an element with an onclick event in your row, then this function can't be used.
-function xquiz_deleteCurrentRow(obj)
+function quiz_deleteCurrentRow(obj)
 {
 	if (hasLoaded) {
 		var delRow = obj.parentNode.parentNode;
 		var tbl = delRow.parentNode.parentNode;
 		var rIndex = delRow.sectionRowIndex;
 		var rowArray = new Array(delRow);
-		xquiz_deleteRows(rowArray);
-		xquiz_reorderRows(tbl, rIndex);
+		quiz_deleteRows(rowArray);
+		quiz_reorderRows(tbl, rIndex);
 	}
 }
 
-function xquiz_reorderRows(tbl, startingIndex)
+function quiz_reorderRows(tbl, startingIndex)
 {
 	if (hasLoaded) {
 		if (tbl.tBodies[0].rows[startingIndex]) {
 			var count = startingIndex + ROW_BASE;
 			for (var i=startingIndex; i<tbl.tBodies[0].rows.length; i++) {
 			
-				// CONFIG: next line is affected by xquiz_myRowObject settings
+				// CONFIG: next line is affected by quiz_myRowObject settings
 				tbl.tBodies[0].rows[i].myRow.one.data = count; // text
 				//tbl.tBodies[0].rows[i].myRow.one.value = count; // text
 				
-				// CONFIG: next line is affected by xquiz_myRowObject settings
+				// CONFIG: next line is affected by quiz_myRowObject settings
 				tbl.tBodies[0].rows[i].myRow.two.name = INPUT_NAME_PREFIX + '[' + count + ']'; // input text
 				if(tbl.tBodies[0].rows[i].myRow.three.type == 'radio')
 					tbl.tBodies[0].rows[i].myRow.three.value = count;
 				else
 					tbl.tBodies[0].rows[i].myRow.three.name = RADIO_NAME + '[' + count + ']';
 				
-				// CONFIG: next line is affected by xquiz_myRowObject settings
+				// CONFIG: next line is affected by quiz_myRowObject settings
 				var tempVal = tbl.tBodies[0].rows[i].myRow.two.value.split(' '); // for debug purposes
 				tbl.tBodies[0].rows[i].myRow.two.value = tempVal[0]; // for debug purposes
 				
@@ -154,7 +154,7 @@ function xquiz_reorderRows(tbl, startingIndex)
 	}
 }
 
-function xquiz_deleteRows(rowObjArray)
+function quiz_deleteRows(rowObjArray)
 {
 	if (hasLoaded) {
 		for (var i=0; i<rowObjArray.length; i++) {

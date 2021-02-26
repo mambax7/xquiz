@@ -1,6 +1,6 @@
 <?php
 
-namespace XoopsModules\Xquiz\Common;
+namespace XoopsModules\Quiz\Common;
 
 /*
  You may not change or alter any portion of this comment or credits
@@ -13,7 +13,7 @@ namespace XoopsModules\Xquiz\Common;
  */
 
 /**
- * Xquiz module
+ * Quiz module
  *
  * @copyright       XOOPS Project (https://xoops.org)
  * @license         GNU GPL 2 or later (https://www.gnu.org/licenses/gpl-2.0.html)
@@ -21,7 +21,7 @@ namespace XoopsModules\Xquiz\Common;
  */
 
 use Xmf\Request;
-use XoopsModules\Xquiz;
+use XoopsModules\Quiz;
 
 //defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
@@ -136,23 +136,23 @@ class DirectoryChecker
 $op = Request::getString('op', '', 'POST');
 switch ($op) {
     case 'createdir':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
+        if (Request::hasVar('path', 'POST')) {
             $path = $_POST['path'];
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
+        if (Request::hasVar('redirect', 'POST')) {
             $redirect = $_POST['redirect'];
         }
         $msg = DirectoryChecker::createDirectory($path) ? constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRCREATED') : constant('CO_' . $moduleDirNameUpper . '_' . 'DC_DIRNOTCREATED');
         redirect_header($redirect, 2, $msg . ': ' . $path);
         break;
     case 'setdirperm':
-        if (\Xmf\Request::hasVar('path', 'POST')) {
+        if (Request::hasVar('path', 'POST')) {
             $path = $_POST['path'];
         }
-        if (\Xmf\Request::hasVar('redirect', 'POST')) {
+        if (Request::hasVar('redirect', 'POST')) {
             $redirect = $_POST['redirect'];
         }
-        if (\Xmf\Request::hasVar('mode', 'POST')) {
+        if (Request::hasVar('mode', 'POST')) {
             $mode = $_POST['mode'];
         }
         $msg = DirectoryChecker::setDirectoryPermissions($path, $mode) ? constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMSET') : constant('CO_' . $moduleDirNameUpper . '_' . 'DC_PERMNOTSET');

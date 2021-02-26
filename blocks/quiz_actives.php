@@ -2,7 +2,7 @@
 
 /**
  * ****************************************************************************
- * xquiz - MODULE FOR XOOPS
+ * quiz - MODULE FOR XOOPS
  * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
  *
  * You may not change or alter any portion of this comment or credits
@@ -14,17 +14,17 @@
  *
  * @copyright          XOOPS Project (https://xoops.org)
  * @license            http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package            xquiz
+ * @package            quiz
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
  * Version : $Id:
  * ****************************************************************************
  */
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Files,
     Helper,
-    Quiz,
+    QuizBase,
     Question
 };
 
@@ -35,7 +35,7 @@ use XoopsModules\Xquiz\{
 function quiz_listActiveQuizs($options)
 {
     $block = [];
-    $block = Quiz::quiz_listQuizLoader(0, $options[0]);
+    $block = QuizBase::quiz_listQuizLoader(0, $options[0]);
     return $block;
 }
 
@@ -45,7 +45,7 @@ function quiz_listActiveQuizs($options)
  */
 function quiz_listActiveQuizs_edit($options)
 {
-    $form = _MB_XQUIZ_OPTION . ": <input type='text' size='9' name='options[0]' value='$options[0]'>";
+    $form = _MB_QUIZ_OPTION . ": <input type='text' size='9' name='options[0]' value='$options[0]'>";
     $form .= '
 ';
     return $form;

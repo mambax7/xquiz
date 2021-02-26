@@ -2,7 +2,7 @@
 
 /**
  * ****************************************************************************
- * xquiz - MODULE FOR XOOPS
+ * quiz - MODULE FOR XOOPS
  * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
  *
  * You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@
  *
  * @copyright          XOOPS Project (https://xoops.org)
  * @license            http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package            xquiz
+ * @package            quiz
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
@@ -29,8 +29,8 @@ $modversion = [
     'version'             => 2.00,
     'module_status'       => 'Beta 1',
     'release_date'        => '2021/01/01',
-    'name'                => _MI_XQUIZ_NAME,
-    'description'         => _MI_XQUIZ_DESC,
+    'name'                => _MI_QUIZ_NAME,
+    'description'         => _MI_QUIZ_DESC,
     'official'            => 0,
     //1 indicates official XOOPS module supported by XOOPS Dev Team, 0 means 3rd party supported
     'author'              => 'Mojtaba Jamali, Mamba, Lio MJ',
@@ -75,7 +75,7 @@ $modversion = [
     'hasMain'             => 1,
 //    'sub'                 => [
 //        [
-//            'name' => _MI_XQUIZ_VIEW_SEARCH,
+//            'name' => _MI_QUIZ_VIEW_SEARCH,
 //            'url'  => 'index.php',
 //        ],
 //    ],
@@ -87,7 +87,7 @@ $modversion = [
     // -------------------  PayPal ---------------------------
     'paypal'              => [
         'business'      => 'xoopsfoundation@gmail.com',
-        'item_name'     => 'Donation : ' . _MI_XQUIZ_NAME,
+        'item_name'     => 'Donation : ' . _MI_QUIZ_NAME,
         'amount'        => 0,
         'currency_code' => 'USD',
     ],
@@ -124,22 +124,22 @@ $modversion = [
 
 global $xoopsUser;
 if (!empty($xoopsUser)) {
-    $modversion['sub'][1]['name'] = _MI_XQUIZ_PROFILE;
+    $modversion['sub'][1]['name'] = _MI_QUIZ_PROFILE;
     $modversion['sub'][1]['url']  = 'index.php?act=p';
 }
 
 // ------------------- Help files ------------------- //
 $modversion['help']        = 'page=help';
 $modversion['helpsection'] = [
-    ['name' => _MI_XQUIZ_OVERVIEW, 'link' => 'page=help'],
-    ['name' => _MI_XQUIZ_DISCLAIMER, 'link' => 'page=disclaimer'],
-    ['name' => _MI_XQUIZ_LICENSE, 'link' => 'page=license'],
-    ['name' => _MI_XQUIZ_SUPPORT, 'link' => 'page=support'],
+    ['name' => _MI_QUIZ_OVERVIEW, 'link' => 'page=help'],
+    ['name' => _MI_QUIZ_DISCLAIMER, 'link' => 'page=disclaimer'],
+    ['name' => _MI_QUIZ_LICENSE, 'link' => 'page=license'],
+    ['name' => _MI_QUIZ_SUPPORT, 'link' => 'page=support'],
 ];
 
 // Templates
 $modversion['templates'] = [
-    ['file' => 'xquiz_index.tpl', 'description' => ''],
+    ['file' => 'quiz_index.tpl', 'description' => ''],
 ];
 
 // ------------------- Config Options ------------------- //
@@ -149,7 +149,7 @@ $modversion['templates'] = [
 //number of quiz per page in admin page
 $modversion['config'][] = [
     'name'        => 'quizList',
-    'title'       => '_MI_XQUIZ_LIST_NUM',
+    'title'       => '_MI_QUIZ_LIST_NUM',
     'description' => '',
     'formtype'    => 'select',
     'valuetype'   => 'int',
@@ -182,7 +182,7 @@ $modversion['config'][] = [
 //number of quiz per page in user page
 $modversion['config'][] = [
     'name'        => 'quizUserList',
-    'title'       => '_MI_XQUIZ_USER_LIST_NUM',
+    'title'       => '_MI_QUIZ_USER_LIST_NUM',
     'description' => '',
     'formtype'    => 'select',
     'valuetype'   => 'int',
@@ -204,8 +204,8 @@ $modversion['config'][] = [
 //MAX Filesize Upload in kilo bytes
 $modversion['config'][] = [
     'name'        => 'maxuploadsize',
-    'title'       => '_MI_XQUIZ_UPLOADFILESIZE',
-    'description' => '_MI_XQUIZ_UPLOADFILESIZE_DESC',
+    'title'       => '_MI_QUIZ_UPLOADFILESIZE',
+    'description' => '_MI_QUIZ_UPLOADFILESIZE_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'int',
     'default'     => 1048576,
@@ -214,8 +214,8 @@ $modversion['config'][] = [
 //Format of the date to use in the module, if you don't specify anything then the default date's format will be used
 $modversion['config'][] = [
     'name'        => 'dateformat',
-    'title'       => '_MI_XQUIZ_DATEFORMAT',
-    'description' => '_MI_XQUIZ_DATEFORMAT_DESC',
+    'title'       => '_MI_QUIZ_DATEFORMAT',
+    'description' => '_MI_QUIZ_DATEFORMAT_DESC',
     'formtype'    => 'textbox',
     'valuetype'   => 'text',
     'default'     => 'j F Y g:i a',
@@ -224,8 +224,8 @@ $modversion['config'][] = [
 //user can see quiz score after quiz
 $modversion['config'][] = [
     'name'        => 'seeScore',
-    'title'       => '_MI_XQUIZ_SEE_SCORE',
-    'description' => '_MI_XQUIZ_SEE_SCORE_DESC',
+    'title'       => '_MI_QUIZ_SEE_SCORE',
+    'description' => '_MI_QUIZ_SEE_SCORE_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -234,7 +234,7 @@ $modversion['config'][] = [
 //just user can see quiz statistics
 $modversion['config'][] = [
     'name'        => 'seeStat',
-    'title'       => '_MI_XQUIZ_SEE_STAT',
+    'title'       => '_MI_QUIZ_SEE_STAT',
     'description' => '',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
@@ -244,8 +244,8 @@ $modversion['config'][] = [
 //mail user score after quiz take part
 $modversion['config'][] = [
     'name'        => 'mailScore',
-    'title'       => '_MI_XQUIZ_MAIL_SCORE',
-    'description' => '_MI_XQUIZ_MAIL_SCORE_DESC',
+    'title'       => '_MI_QUIZ_MAIL_SCORE',
+    'description' => '_MI_QUIZ_MAIL_SCORE_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -254,8 +254,8 @@ $modversion['config'][] = [
 //user can see score in profile befor quiz end date
 $modversion['config'][] = [
     'name'        => 'seeScoreProfile',
-    'title'       => '_MI_XQUIZ_PROFILE_SCORE',
-    'description' => '_MI_XQUIZ_PROFILE_SCORE_DESC',
+    'title'       => '_MI_QUIZ_PROFILE_SCORE',
+    'description' => '_MI_QUIZ_PROFILE_SCORE_DESC',
     'formtype'    => 'yesno',
     'valuetype'   => 'int',
     'default'     => 1,
@@ -269,7 +269,7 @@ $editorList    = array_flip($editorHandler->getList());
 //user can select wysiwyg editor
 //$modversion['config'][] = [
 //    'name'        => 'use_wysiwyg',
-//    'title'       => '_MI_XQUIZ_EDITORS',
+//    'title'       => '_MI_QUIZ_EDITORS',
 //    'description' => '',
 //    'formtype'    => 'select',
 //    'valuetype'   => 'text',
@@ -279,8 +279,8 @@ $editorList    = array_flip($editorHandler->getList());
 
 $modversion['config'][] = [
     'name'        => 'editorAdmin',
-    'title'       => '_MI_XQUIZ_EDITOR_ADMIN',
-    'description' => '_MI_XQUIZ_EDITOR_ADMIN_DESC',
+    'title'       => '_MI_QUIZ_EDITOR_ADMIN',
+    'description' => '_MI_QUIZ_EDITOR_ADMIN_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'dhtmltextarea',
@@ -289,8 +289,8 @@ $modversion['config'][] = [
 
 $modversion['config'][] = [
     'name'        => 'editorUser',
-    'title'       => '_MI_XQUIZ_EDITOR_USER',
-    'description' => '_MI_XQUIZ_EDITOR_USER_DESC',
+    'title'       => '_MI_QUIZ_EDITOR_USER',
+    'description' => '_MI_QUIZ_EDITOR_USER_DESC',
     'formtype'    => 'select',
     'valuetype'   => 'text',
     'default'     => 'dhtmltextarea',
@@ -325,10 +325,10 @@ $modversion['config'][] = [
 //recent quiz
 $modversion['blocks'][] = [
     'file'        => 'quiz_quizs.php',
-    'name'        => _MI_XQUIZ_LATESTQUIZ,
-    'description' => _MI_XQUIZ_LATESTQUIZ,
+    'name'        => _MI_QUIZ_LATESTQUIZ,
+    'description' => _MI_QUIZ_LATESTQUIZ,
     'show_func'   => 'quiz_listQuizs',
-    'template'    => 'xquiz_block_quizs.tpl',
+    'template'    => 'quiz_block_quizs.tpl',
     'edit_func'   => 'quiz_listQuizs_edit',
     'options'     => '5',
 ];
@@ -336,10 +336,10 @@ $modversion['blocks'][] = [
 //recent active quiz
 $modversion['blocks'][] = [
     'file'        => 'quiz_actives.php',
-    'name'        => _MI_XQUIZ_LATESTQUIZ_ACTIVE,
-    'description' => _MI_XQUIZ_LATESTQUIZ_ACTIVE,
+    'name'        => _MI_QUIZ_LATESTQUIZ_ACTIVE,
+    'description' => _MI_QUIZ_LATESTQUIZ_ACTIVE,
     'show_func'   => 'quiz_listActiveQuizs',
-    'template'    => 'xquiz_block_actives.tpl',
+    'template'    => 'quiz_block_actives.tpl',
     'edit_func'   => 'quiz_listActiveQuizs_edit',
     'options'     => '5',
 ];
@@ -351,15 +351,15 @@ $modversion['notification']['lookup_func'] = 'quiz_notify_iteminfo';
 
 $modversion['notification']['category'][] = [
     'name'           => 'global',
-    'title'          => _MI_XQUIZ_GLOBAL_NOTIFY,
-    'description'    => _MI_XQUIZ_GLOBAL_NOTIFYDSC,
+    'title'          => _MI_QUIZ_GLOBAL_NOTIFY,
+    'description'    => _MI_QUIZ_GLOBAL_NOTIFYDSC,
     'subscribe_from' => 'index.php',
 ];
 
 $modversion['notification']['category'][] = [
     'name'           => 'quiz',
-    'title'          => _MI_XQUIZ_STORY_NOTIFY,
-    'description'    => _MI_XQUIZ_STORY_NOTIFYDSC,
+    'title'          => _MI_QUIZ_STORY_NOTIFY,
+    'description'    => _MI_QUIZ_STORY_NOTIFYDSC,
     'subscribe_from' => 'index.php',
     'item_name'      => 'q',
     'allow_bookmark' => 1,
@@ -367,8 +367,8 @@ $modversion['notification']['category'][] = [
 
 $modversion['notification']['category'][] = [
     'name'           => 'category',
-    'title'          => _MI_XQUIZ_CATEGORY_NOTIFY,
-    'description'    => _MI_XQUIZ_CATEGORY_NOTIFYDSC,
+    'title'          => _MI_QUIZ_CATEGORY_NOTIFY,
+    'description'    => _MI_QUIZ_CATEGORY_NOTIFYDSC,
     'subscribe_from' => 'index.php',
     'item_name'      => 'cid',
     'allow_bookmark' => 1,
@@ -377,41 +377,41 @@ $modversion['notification']['category'][] = [
 $modversion['notification']['event'][] = [
     'name'          => 'new_category',
     'category'      => 'global',
-    'title'         => _MI_XQUIZ_GLOBAL_NEWCATEGORY_NOTIFY,
-    'caption'       => _MI_XQUIZ_GLOBAL_NEWCATEGORY_NOTIFYCAP,
-    'description'   => _MI_XQUIZ_GLOBAL_NEWCATEGORY_NOTIFYDSC,
+    'title'         => _MI_QUIZ_GLOBAL_NEWCATEGORY_NOTIFY,
+    'caption'       => _MI_QUIZ_GLOBAL_NEWCATEGORY_NOTIFYCAP,
+    'description'   => _MI_QUIZ_GLOBAL_NEWCATEGORY_NOTIFYDSC,
     'mail_template' => 'global_newcategory_notify',
-    'mail_subject'  => _MI_XQUIZ_GLOBAL_NEWCATEGORY_NOTIFYSBJ,
+    'mail_subject'  => _MI_QUIZ_GLOBAL_NEWCATEGORY_NOTIFYSBJ,
 ];
 
 $modversion['notification']['event'][] = [
     'name'          => 'quiz_submit',
     'category'      => 'global',
     'admin_only'    => 1,
-    'title'         => _MI_XQUIZ_GLOBAL_STORYSUBMIT_NOTIFY,
-    'caption'       => _MI_XQUIZ_GLOBAL_STORYSUBMIT_NOTIFYCAP,
-    'description'   => _MI_XQUIZ_GLOBAL_STORYSUBMIT_NOTIFYDSC,
+    'title'         => _MI_QUIZ_GLOBAL_STORYSUBMIT_NOTIFY,
+    'caption'       => _MI_QUIZ_GLOBAL_STORYSUBMIT_NOTIFYCAP,
+    'description'   => _MI_QUIZ_GLOBAL_STORYSUBMIT_NOTIFYDSC,
     'mail_template' => 'global_quizsubmit_notify',
-    'mail_subject'  => _MI_XQUIZ_GLOBAL_STORYSUBMIT_NOTIFYSBJ,
+    'mail_subject'  => _MI_QUIZ_GLOBAL_STORYSUBMIT_NOTIFYSBJ,
 ];
 
 $modversion['notification']['event'][] = [
     'name'          => 'new_quiz',
     'category'      => 'category',
-    'title'         => _MI_XQUIZ_CATEGORY_STORYPOSTED_NOTIFY,
-    'caption'       => _MI_XQUIZ_CATEGORY_STORYPOSTED_NOTIFYCAP,
-    'description'   => _MI_XQUIZ_CATEGORY_STORYPOSTED_NOTIFYDSC,
+    'title'         => _MI_QUIZ_CATEGORY_STORYPOSTED_NOTIFY,
+    'caption'       => _MI_QUIZ_CATEGORY_STORYPOSTED_NOTIFYCAP,
+    'description'   => _MI_QUIZ_CATEGORY_STORYPOSTED_NOTIFYDSC,
     'mail_template' => 'global_newquiz_notify',
-    'mail_subject'  => _MI_XQUIZ_CATEGORY_STORYPOSTED_NOTIFYSBJ,
+    'mail_subject'  => _MI_QUIZ_CATEGORY_STORYPOSTED_NOTIFYSBJ,
 ];
 
 $modversion['notification']['event'][] = [
     'name'          => 'approve',
     'category'      => 'quiz',
     'invisible'     => 1,
-    'title'         => _MI_XQUIZ_STORY_APPROVE_NOTIFY,
-    'caption'       => _MI_XQUIZ_STORY_APPROVE_NOTIFYCAP,
-    'description'   => _MI_XQUIZ_STORY_APPROVE_NOTIFYDSC,
+    'title'         => _MI_QUIZ_STORY_APPROVE_NOTIFY,
+    'caption'       => _MI_QUIZ_STORY_APPROVE_NOTIFYCAP,
+    'description'   => _MI_QUIZ_STORY_APPROVE_NOTIFYDSC,
     'mail_template' => 'story_approve_notify',
-    'mail_subject'  => _MI_XQUIZ_STORY_APPROVE_NOTIFYSBJ,
+    'mail_subject'  => _MI_QUIZ_STORY_APPROVE_NOTIFYSBJ,
 ];

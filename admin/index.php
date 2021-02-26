@@ -2,7 +2,7 @@
 
 /**
  * ****************************************************************************
- * xquiz - MODULE FOR XOOPS
+ * quiz - MODULE FOR XOOPS
  * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
  *
  * You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@
  *
  * @copyright          XOOPS Project (https://xoops.org)
  * @license            http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package            xquiz
+ * @package            quiz
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
@@ -25,27 +25,45 @@
 use Xmf\Module\Admin;
 use Xmf\Request;
 use Xmf\Yaml;
-use XoopsModules\Xquiz;
-use XoopsModules\Xquiz\Common;
+use XoopsModules\Quiz\{
+    Common,
+    Common\TestdataButtons,
+    Forms,
+    Helper,
+    Utility
+};
+
+/** @var Admin $adminObject */
+/** @var Helper $helper */
+/** @var Utility $utility */
 
 require __DIR__ . '/admin_header.php';
 xoops_cp_header();
 $adminObject = Admin::getInstance();
-////count "total Question"
+
+///** @var \XoopsPersistableObjectHandler $answersHandler */
+//$answersHandler = $helper->getHandler('Answer');
+///** @var \XoopsPersistableObjectHandler $categoryHandler */
+//$categoryHandler = $helper->getHandler('Category');
 ///** @var \XoopsPersistableObjectHandler $questionHandler */
-//$totalQuestion = $questionHandler->getCount();
+//$questionHandler = $helper->getHandler('Question');
+///** @var \XoopsPersistableObjectHandler $questionsHandler */
+//$questionsHandler = $helper->getHandler('Questions');
+///** @var \XoopsPersistableObjectHandler $quizHandler */
+//$quizHandler = $helper->getHandler('Quiz');
+//
+//
+////$totalQuestion = $questionHandler->getCount();
 ////count "total Quiz"
 ///** @var \XoopsPersistableObjectHandler $quizHandler */
 //$totalQuiz = $quizHandler->getCount();
 ////count "total Cat"
-///** @var \XoopsPersistableObjectHandler $catHandler */
-//$totalCat = $catHandler->getCount();
-////count "total Quiz_users"
-///** @var \XoopsPersistableObjectHandler $quiz_usersHandler */
-//$totalQuiz_users = $quiz_usersHandler->getCount();
+///** @var \XoopsPersistableObjectHandler $categoryHandler */
+//$totalCat = $categoryHandler->getCount();
+////$totalQuiz_users = $quiz_usersHandler->getCount();
 ////count "total Question_user"
-///** @var \XoopsPersistableObjectHandler $question_userHandler */
-//$totalQuestion_user = $question_userHandler->getCount();
+///** @var \XoopsPersistableObjectHandler $questionHandler */
+//$totalQuestion_user = $questionHandler->getCount();
 ////count "total Questions"
 ///** @var \XoopsPersistableObjectHandler $questionsHandler */
 //$totalQuestions = $questionsHandler->getCount();
@@ -54,7 +72,7 @@ $adminObject = Admin::getInstance();
 //$totalAnswers = $answersHandler->getCount();
 //// InfoBox Statistics
 //$adminObject->addInfoBox(AM_QUIZ_STATISTICS);
-//
+
 //// InfoBox question
 //$adminObject->addInfoBoxLine(sprintf(AM_QUIZ_THEREARE_QUESTION, $totalQuestion));
 //
@@ -98,76 +116,24 @@ $adminObject->displayNavigation(basename(__FILE__));
 //}
 
 
-//------------- Test Data ----------------------------
-
+//------------- Test Data Buttons ----------------------------
 if ($helper->getConfig('displaySampleButton')) {
-    $yamlFile            = dirname(__DIR__) . '/config/admin.yml';
-    $config              = loadAdminConfig($yamlFile);
-    $displaySampleButton = $config['displaySampleButton'];
-
-    if (1 == $displaySampleButton) {
-        xoops_loadLanguage('admin/modulesadmin', 'system');
-        require_once dirname(__DIR__) . '/testdata/index.php';
-
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'ADD_SAMPLEDATA'), $helper->url( 'testdata/index.php?op=load'), 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SAVE_SAMPLEDATA'), $helper->url( 'testdata/index.php?op=save'), 'add');
-        //    $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'EXPORT_SCHEMA'), $helper->url( 'testdata/index.php?op=exportschema'), 'add');
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'HIDE_SAMPLEDATA_BUTTONS'), '?op=hide_buttons', 'delete');
-    } else {
-        $adminObject->addItemButton(constant('CO_' . $moduleDirNameUpper . '_' . 'SHOW_SAMPLEDATA_BUTTONS'), '?op=show_buttons', 'add');
-        $displaySampleButton = $config['displaySampleButton'];
-    }
-    $adminObject->displayButton('left', '');
-    ;
+    TestdataButtons::loadButtonConfig($adminObject);
+    $adminObject->displayButton('left', '');;
 }
-
-//------------- End Test Data ----------------------------
-
-$adminObject->displayIndex();
-
-/**
- * @param $yamlFile
- * @return array|bool
- */
-function loadAdminConfig($yamlFile)
-{
-    $config = Yaml::readWrapped($yamlFile); // work with phpmyadmin YAML dumps
-    return $config;
-}
-
-/**
- * @param $yamlFile
- */
-function hideButtons($yamlFile)
-{
-    $app = [];
-    $app['displaySampleButton'] = 0;
-    Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
-/**
- * @param $yamlFile
- */
-function showButtons($yamlFile)
-{
-    $app = [];
-    $app['displaySampleButton'] = 1;
-    Yaml::save($app, $yamlFile);
-    redirect_header('index.php', 0, '');
-}
-
-$op = Request::getString('op', 0, 'GET');
-
+$op = \Xmf\Request::getString('op', 0, 'GET');
 switch ($op) {
     case 'hide_buttons':
-        hideButtons($yamlFile);
+        TestdataButtons::hideButtons();
         break;
     case 'show_buttons':
-        showButtons($yamlFile);
+        TestdataButtons::showButtons();
         break;
 }
+//------------- End Test Data Buttons ----------------------------
 
+
+$adminObject->displayIndex();
 echo $utility::getServerStats();
 
 //codeDump(__FILE__);

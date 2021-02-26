@@ -1,4 +1,4 @@
-xquiz_quizzes:
+quiz_quizzes:
     options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
@@ -26,7 +26,7 @@ xquiz_quizzes:
         PRIMARY:
             columns: id
             unique: true
-xquiz_categories:
+quiz_categories:
     options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
@@ -54,7 +54,7 @@ xquiz_categories:
         PRIMARY:
             columns: cid
             unique: true
-xquiz_score:
+quiz_score:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -
@@ -76,7 +76,7 @@ xquiz_score:
         PRIMARY:
             columns: 'id, userid'
             unique: true
-xquiz_questions:
+quiz_questions:
     options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
@@ -104,7 +104,7 @@ xquiz_questions:
         quiz_id:
             columns: quiz_id
             unique: false
-xquiz_answers:
+quiz_answers:
     options: 'ENGINE=MyISAM DEFAULT CHARSET=utf8'
     columns:
         -
@@ -126,7 +126,7 @@ xquiz_answers:
         question_id:
             columns: question_id
             unique: false
-xquiz_useranswers:
+quiz_useranswers:
     options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8'
     columns:
         -

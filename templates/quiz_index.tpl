@@ -1,14 +1,14 @@
 <div class="breadcrumb">
     <a href="index.php" title="<{$module_name|default:''}>">
-                        <{$smarty.const._MD_XQUIZ_MODULENAME}>&nbsp;&raquo;&nbsp;
-<{*	<{$smarty.const._MD_XQUIZ_CATEGORIES}>*}>
+                        <{$smarty.const._MD_QUIZ_MODULENAME}>&nbsp;&raquo;&nbsp;
+<{*	<{$smarty.const._MD_QUIZ_CATEGORIES}>*}>
     </a>
 </div>
 
 <{if $showQuiz|default:0 == 0}>
 <{*	<{if $Parent >= 0}>	<{/if}>*}>
 	<{if $categoryNum != 0}>
-	<h5><{$smarty.const._MD_XQUIZ_CATEGORIES}></h5>
+	<h5><{$smarty.const._MD_QUIZ_CATEGORIES}></h5>
 	
 	<div class=" container-fluid">
     <div class="row">
@@ -16,12 +16,12 @@
             <{foreach item=category from=$listCategory}>
                 <div class="card" style="width:100%">
                     <{if $category.imgurl != 'blank.png'}>
-                        <a href="<{$xoops_url}>/modules/xquiz/index.php?cid=<{$category.cid}>">
-                            <img class="card-img-top" src="<{$xoops_url}>/uploads/xquiz/category/<{$category.imgurl}>" style="width:100%;">
+                        <a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$category.cid}>">
+                            <img class="card-img-top" src="<{$xoops_url}>/uploads/quiz/category/<{$category.imgurl}>" style="width:100%;">
                         </a>
                     <{/if}>
                     <div class="card-body">
-                        <h4 class="card-title"><a href="<{$xoops_url}>/modules/xquiz/index.php?cid=<{$category.cid}>"><{$category.title}></a></h4>
+                        <h4 class="card-title"><a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$category.cid}>"><{$category.title}></a></h4>
                         <p class="card-text"><{$category.description}></p>
                         <{*                        <a href="#" class="btn btn-primary">See Profile</a>*}>
                     </div>
@@ -36,19 +36,19 @@
 
 <{if $quizNum != 0}>
     <br>
-    <h4><{$smarty.const._MD_XQUIZ_QUIZS}></h4>
+    <h4><{$smarty.const._MD_QUIZ_QUIZS}></h4>
     <{$smarty.now|date_format:"%A, %B %e, %Y %I:%M %p"}>
     <table width='100%' class="table table-striped">
         <tr>
 
             <th>
-                <{$smarty.const._MD_XQUIZ_NAME}>
+                <{$smarty.const._MD_QUIZ_NAME}>
             </th>
             <th>
-                <{$smarty.const._MD_XQUIZ_STATUS}>
+                <{$smarty.const._MD_QUIZ_STATUS}>
             </th>
             <th>
-                <{$smarty.const._MD_XQUIZ_ACTION}>
+                <{$smarty.const._MD_QUIZ_ACTION}>
             </th>
         </tr>
         <{foreach item=quiz from=$listQuiz}>
@@ -58,31 +58,31 @@
                     <td>
                         <{$quiz.name}> <br>
                         <small>
-                            <strong><{$smarty.const._MD_XQUIZ_STARTDATE}>: </strong> <{$quiz.bdate}><br>
-                            <strong><{$smarty.const._MD_XQUIZ_ENDDATE}>: </strong><{$quiz.edate}><br>
-                            <strong><{$smarty.const._MD_XQUIZ_QUEST_TOTAL}>: </strong><{$quiz.totalquestion}><br>
+                            <strong><{$smarty.const._MD_QUIZ_STARTDATE}>: </strong> <{$quiz.bdate}><br>
+                            <strong><{$smarty.const._MD_QUIZ_ENDDATE}>: </strong><{$quiz.edate}><br>
+                            <strong><{$smarty.const._MD_QUIZ_QUEST_TOTAL}>: </strong><{$quiz.totalquestion}><br>
                         </small>
                     </td>
                     <td>
                         <{if $quiz.active==1}>
-                            <img src="<{$xoops_url}>/modules/xquiz/assets/images/on.png">
-                            &nbsp;<{$smarty.const._MD_XQUIZ_RUNNING}>
+                            <img src="<{$xoops_url}>/modules/quiz/assets/images/on.png">
+                            &nbsp;<{$smarty.const._MD_QUIZ_RUNNING}>
                         <{else}>
-                            <img src="<{$xoops_url}>/modules/xquiz/assets/images/off.png">
-                            &nbsp;<{$smarty.const._MD_XQUIZ_EXPIRED}><{/if}>
+                            <img src="<{$xoops_url}>/modules/quiz/assets/images/off.png">
+                            &nbsp;<{$smarty.const._MD_QUIZ_EXPIRED}><{/if}>
                     </td>
                     <td>
                         <{if $quiz.active==1}>
-                            <a href="<{$xoops_url}>/modules/xquiz/index.php?act=v&q=<{$quiz.id}>">
-                                <{$smarty.const._MD_XQUIZ_TAKEQUIZ}>
+                            <a href="<{$xoops_url}>/modules/quiz/index.php?act=v&q=<{$quiz.id}>">
+                                <{$smarty.const._MD_QUIZ_TAKEQUIZ}>
                             </a>
                         <{else}>
 
                         <{/if}>
                         <{if $quiz.viewstat==1}>
-                            <a href="<{$xoops_url}>/modules/xquiz/index.php?act=s&q=<{$quiz.id}>">
+                            <a href="<{$xoops_url}>/modules/quiz/index.php?act=s&q=<{$quiz.id}>">
 
-                                <{$smarty.const._MD_XQUIZ_VIEW_STAT}>
+                                <{$smarty.const._MD_QUIZ_VIEW_STAT}>
                             </a>
                         <{/if}>
                     </td>
@@ -97,20 +97,20 @@
 
 <{if $showQuiz|default:0 == 2}>
     <div class="alert alert-info">
-        <h5><a href="<{$xoops_url}>/modules/xquiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> :: <{$quizName}></h5>
+        <h5><a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> :: <{$quizName}></h5>
         <{$quizDescription}>
     </div>
     <table class='table table table-striped table-hover'>
         <thead>
         <tr>
             <th>
-                <{$smarty.const._MD_XQUIZ_USER}>
+                <{$smarty.const._MD_QUIZ_USER}>
             </th>
             <th>
-                <{$smarty.const._MD_XQUIZ_SCORE}>
+                <{$smarty.const._MD_QUIZ_SCORE}>
             </th>
             <th>
-                <{$smarty.const._MD_XQUIZ_DATETAKEN}>
+                <{$smarty.const._MD_QUIZ_DATETAKEN}>
             </th>
         </tr>
         </thead>
@@ -144,7 +144,7 @@
 <{if $showQuiz|default:0 == 1}>
     <{if $emptyList != 1}>
         <div class="alert alert-info">
-            <h5><a href="<{$xoops_url}>/modules/xquiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> :: <{$quizName}></h5>
+            <h5><a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> :: <{$quizName}></h5>
             <{$quizDescription}>
         </div>
         <{$listquestfrom.javascript}>
@@ -172,7 +172,7 @@
         <table align="center" cellspacing="0" class="outer">
             <tr>
                 <td>
-                    <{$smarty.const._MD_XQUIZ_QUEST_EMPTY}>
+                    <{$smarty.const._MD_QUIZ_QUEST_EMPTY}>
                 </td>
             </tr>
         </table>
@@ -190,23 +190,23 @@
     <table class='table table table-striped table-hover'>
         <tr>
             <th>
-                <{$smarty.const._MD_XQUIZ_NAME}>
+                <{$smarty.const._MD_QUIZ_NAME}>
             </th>
             <th>
-                <{$smarty.const._MD_XQUIZ_DATETAKEN}>
+                <{$smarty.const._MD_QUIZ_DATETAKEN}>
             </th>
             <th>
-                <{$smarty.const._MD_XQUIZ_SCORE}>
+                <{$smarty.const._MD_QUIZ_SCORE}>
             </th>
             <th>
-                <{$smarty.const._MD_XQUIZ_DETAIL}>
+                <{$smarty.const._MD_QUIZ_DETAIL}>
             </th>
         </tr>
         <{foreach item=quizProfile from=$quizProfile}>
             <{if !$quizProfile.active OR $quizProfileConfig}>
                 <tr>
                     <td>
-                        <a href="<{$xoops_url}>/modules/xquiz/index.php?act=v&q=<{$quizProfile.id}>">
+                        <a href="<{$xoops_url}>/modules/quiz/index.php?act=v&q=<{$quizProfile.id}>">
                             <{$quizProfile.name}>
                         </a>
                     </td>
@@ -217,8 +217,8 @@
                         <{$quizProfile.score}>
                     </td>
                     <td>
-                        <a href="<{$xoops_url}>/modules/xquiz/index.php?act=p&qi=<{$quizProfile.id}>">
-                            <img src="<{$xoops_url}>/modules/xquiz/assets/images/detail.gif">
+                        <a href="<{$xoops_url}>/modules/quiz/index.php?act=p&qi=<{$quizProfile.id}>">
+                            <img src="<{$xoops_url}>/modules/quiz/assets/images/detail.gif">
                         </a>
                     </td>
                 </tr>
@@ -238,16 +238,16 @@
             </tr>
             <tr>
                 <th>
-                    <{$smarty.const._MD_XQUIZ_QUEST_SCORE}>
+                    <{$smarty.const._MD_QUIZ_QUEST_SCORE}>
                 </th>
                 <th>
-                    <{$smarty.const._MD_XQUIZ_USER_ANSWER}>
+                    <{$smarty.const._MD_QUIZ_USER_ANSWER}>
                 </th>
                 <th>
-                    <{$smarty.const._MD_XQUIZ_QUEST_ANSWER}>
+                    <{$smarty.const._MD_QUIZ_QUEST_ANSWER}>
                 </th>
                 <th>
-                    <{$smarty.const._MD_XQUIZ_STATUS}>
+                    <{$smarty.const._MD_QUIZ_STATUS}>
                 </th>
             </tr>
             <tr>
@@ -262,9 +262,9 @@
                 </td>
                 <td>
                     <{if $questProfile.userAns == $questProfile.answer}>
-                        <img src="<{$xoops_url}>/modules/xquiz/assets/images/valid.png">
+                        <img src="<{$xoops_url}>/modules/quiz/assets/images/valid.png">
                     <{else}>
-                        <img src="<{$xoops_url}>/modules/xquiz/assets/images/invalid.png">
+                        <img src="<{$xoops_url}>/modules/quiz/assets/images/invalid.png">
                     <{/if}>
 
                 </td>

@@ -18,7 +18,7 @@
  */
 
 use Xmf\Module\Admin;
-use XoopsModules\Xquiz\{
+use XoopsModules\Quiz\{
     Helper,
     Utility
 };

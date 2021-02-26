@@ -2,7 +2,7 @@
 
 /**
  * ****************************************************************************
- * xquiz - MODULE FOR XOOPS
+ * quiz - MODULE FOR XOOPS
  * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
  *
  * You may not change or alter any portion of this comment or credits
@@ -14,7 +14,7 @@
  *
  * @copyright          XOOPS Project (https://xoops.org)
  * @license            http://www.fsf.org/copyleft/gpl.html GNU public license
- * @package            xquiz
+ * @package            quiz
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
@@ -30,7 +30,7 @@
 function quiz_search($queryarray, $andor, $limit, $offset, $userid)
 {
     global $xoopsDB;
-    $sql = 'SELECT id,name,description,bdate FROM ' . $xoopsDB->prefix('xquiz_quizzes') . '';
+    $sql = 'SELECT id,name,description,bdate FROM ' . $xoopsDB->prefix('quiz_quizzes') . '';
     if (is_array($queryarray) && $count = count($queryarray)) {
         $sql .= " WHERE bdate < NOW() AND((name LIKE '$queryarray[0]' OR description LIKE
                '$queryarray[0]')";
@@ -42,7 +42,7 @@ function quiz_search($queryarray, $andor, $limit, $offset, $userid)
         $sql .= ') ';
     }
     $sql   .= 'ORDER BY id DESC';
-    $query = $xoopsDB->query('SELECT COUNT(*) FROM ' . $xoopsDB->prefix('xquiz_quizzes') . ' WHERE id>0');
+    $query = $xoopsDB->query('SELECT COUNT(*) FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id>0');
     [$numrows] = $xoopsDB->fetchRow($query);
 
     $result = $xoopsDB->query($sql, $limit, $offset);

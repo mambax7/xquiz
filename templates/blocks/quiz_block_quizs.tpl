@@ -4,24 +4,24 @@
 			<tr>
 				<{if $quiz.active==1}>
 					<td>
-						<a href="<{$xoops_url}>/modules/xquiz/quiz.php?act=v&q=<{$quiz.id}>">
+						<a href="<{$xoops_url}>/modules/quiz/quiz.php?act=v&q=<{$quiz.id}>">
 							<{$quiz.name}>
 						</a>
 					</td>
 					<td>
 						
-							<{$smarty.const._MB_XQUIZ_ACTIVE}>
+							<{$smarty.const._MB_QUIZ_ACTIVE}>
 				
 					</td>
 					<{else}>
 					<td>
-						<a href="<{$xoops_url}>/modules/xquiz/?act=s&q=<{$quiz.id}>">
+						<a href="<{$xoops_url}>/modules/quiz/?act=s&q=<{$quiz.id}>">
 							<{$quiz.name}>
 						</a>
 					</td>
 					<td>
-						<a href="<{$xoops_url}>/modules/xquiz/?act=s&q=<{$quiz.id}>">
-							<{$smarty.const._MB_XQUIZ_UNACTIVE}>
+						<a href="<{$xoops_url}>/modules/quiz/?act=s&q=<{$quiz.id}>">
+							<{$smarty.const._MB_QUIZ_UNACTIVE}>
 						</a>	
 					</td>
 				<{/if}>	
