@@ -107,9 +107,8 @@ class Answer
             $this->is_correct = '0';
         }
         global $xoopsDB;
-        $query = 'INSERT into ' . $xoopsDB->prefix('quiz_answers') . "(question_id ,is_correct ,answer)
-				VALUES ('$this->questId', '$this->is_correct', '$this->answer');";
-        $res   = $xoopsDB->query($query);
+        $sql = 'INSERT into ' . $xoopsDB->prefix('quiz_answers') . "(question_id ,is_correct ,answer) VALUES ('$this->questId', '$this->is_correct', '$this->answer');";
+        $res   = $xoopsDB->query($sql);
 
         if (!$res) {
             return false;
@@ -131,9 +130,8 @@ class Answer
     {
         global $xoopsDB;
         $questionId = $xoopsDB->escape($questionId);
-        $query      = 'DELETE FROM ' . $xoopsDB->prefix('quiz_answers') . " WHERE  
-					  question_id = '$questionId' ";
-        $res        = $xoopsDB->query($query);
+        $sql      = 'DELETE FROM ' . $xoopsDB->prefix('quiz_answers') . " WHERE  question_id = '$questionId' ";
+        $res        = $xoopsDB->query($sql);
         if (!$res) {
             return false;
         } else {

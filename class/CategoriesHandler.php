@@ -13,6 +13,7 @@ namespace XoopsModules\Quiz;
  but WITHOUT ANY WARRANTY; without even the implied warranty of
  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 */
+
 /**
  * Module: Quiz
  *
@@ -24,46 +25,41 @@ namespace XoopsModules\Quiz;
 
 use XoopsModules\Quiz;
 
-
-    $moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = basename(dirname(__DIR__));
 
 $permHelper = new \Xmf\Module\Helper\Permission();
 
-
-
-
-        /**
-         * Class CategoriesHandler
-         */
+/**
+ * Class CategoriesHandler
+ */
 class CategoriesHandler extends \XoopsPersistableObjectHandler
 {
-
     /**
      * @var Helper
      */
     public $helper;
-    
+
     /**
      * Constructor
-     * @param null|\XoopsDatabase $db
+     * @param null|\XoopsDatabase            $db
      * @param null|\XoopsModules\Quiz\Helper $helper
      */
 
     public function __construct(\XoopsDatabase $db = null, $helper = null)
     {
-        /** @var \XoopsModules\Quiz\Helper $this->helper */
+        /** @var \XoopsModules\Quiz\Helper $this- >helper */
         $this->helper = $helper;
         parent::__construct($db, 'quiz_categories', Categories::class, 'cid', 'title');
     }
-    
-     /**
+
+    /**
      * @param bool $isNew
      *
      * @return \XoopsObject
      */
     public function create($isNew = true)
     {
-        $obj = parent::create($isNew);
+        $obj         = parent::create($isNew);
         $obj->helper = $this->helper;
 
         return $obj;

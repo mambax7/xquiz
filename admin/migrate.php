@@ -30,8 +30,10 @@
 // ------------------------------------------------------------------------- //
 
 use Xmf\Request;
-use XoopsModules\Quiz;
-use XoopsModules\Quiz\Common\Migrate;
+use XoopsModules\Quiz\{
+    Common\Configurator,
+    Common\Migrate
+};
 
 require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
@@ -54,7 +56,7 @@ EOF;
 
 //XoopsLoad::load('migrate', 'newbb');
 
-$configurator = new Quiz\Common\Configurator();
+$configurator = new Configurator();
 
 $migrator = new Migrate($configurator);
 

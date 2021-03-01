@@ -33,9 +33,9 @@ $permHelper = new \Xmf\Module\Helper\Permission();
 
 
         /**
-         * Class ScoreHandler
+         * Class ScoresHandler
          */
-class ScoreHandler extends \XoopsPersistableObjectHandler
+class ScoresHandler extends \XoopsPersistableObjectHandler
 {
 
     /**

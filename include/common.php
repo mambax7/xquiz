@@ -42,7 +42,7 @@ $utility = new Utility();
 $helper->loadLanguage('common');
 
 //handlers
-//$categoryHandler     = new xxxxx\CategoryHandler($db);
+//$categoriesHandler     = new xxxxx\CategoriesHandler($db);
 //$downloadHandler     = new xxxxx\DownloadHandler($db);
 
 $pathIcon16 = Admin::iconUrl('', 16);

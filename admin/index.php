@@ -43,8 +43,8 @@ $adminObject = Admin::getInstance();
 
 ///** @var \XoopsPersistableObjectHandler $answersHandler */
 //$answersHandler = $helper->getHandler('Answer');
-///** @var \XoopsPersistableObjectHandler $categoryHandler */
-//$categoryHandler = $helper->getHandler('Category');
+///** @var \XoopsPersistableObjectHandler $categoriesHandler */
+//$categoriesHandler = $helper->getHandler('Categories');
 ///** @var \XoopsPersistableObjectHandler $questionHandler */
 //$questionHandler = $helper->getHandler('Question');
 ///** @var \XoopsPersistableObjectHandler $questionsHandler */
@@ -58,8 +58,8 @@ $adminObject = Admin::getInstance();
 ///** @var \XoopsPersistableObjectHandler $quizHandler */
 //$totalQuiz = $quizHandler->getCount();
 ////count "total Cat"
-///** @var \XoopsPersistableObjectHandler $categoryHandler */
-//$totalCat = $categoryHandler->getCount();
+///** @var \XoopsPersistableObjectHandler $categoriesHandler */
+//$totalCat = $categoriesHandler->getCount();
 ////$totalQuiz_users = $quiz_usersHandler->getCount();
 ////count "total Question_user"
 ///** @var \XoopsPersistableObjectHandler $questionHandler */
@@ -104,7 +104,49 @@ $uploadFolders = $configurator->uploadFolders;
 foreach (array_keys($uploadFolders) as $i) {
     $adminObject->addConfigBoxLine(Common\DirectoryChecker::getDirectoryStatus($uploadFolders[$i], 0777, $redirectFile));
 }
+//==========================================
 
+//count "total Quizzes"
+/** @var \XoopsPersistableObjectHandler $quizzesHandler */
+$totalQuizzes = $quizzesHandler->getCount();
+//count "total Categories"
+/** @var \XoopsPersistableObjectHandler $categoriesHandler */
+$totalCategories = $categoriesHandler->getCount();
+//count "total Scores"
+/** @var \XoopsPersistableObjectHandler $scoresHandler */
+$totalScores = $scoresHandler->getCount();
+//count "total Useranswers"
+/** @var \XoopsPersistableObjectHandler $useranswersHandler */
+$totalUseranswers = $useranswersHandler->getCount();
+//count "total Questions"
+/** @var \XoopsPersistableObjectHandler $questionsHandler */
+$totalQuestions = $questionsHandler->getCount();
+//count "total Answers"
+/** @var \XoopsPersistableObjectHandler $answersHandler */
+$totalAnswers = $answersHandler->getCount();
+
+// InfoBox Statistics
+$adminObject->addInfoBox(AM_QUIZ_STATISTICS);
+
+// InfoBox quizzes
+$adminObject->addInfoBoxLine(sprintf(AM_QUIZ_THEREARE_QUIZZES, $totalQuizzes));
+
+// InfoBox categories
+$adminObject->addInfoBoxLine(sprintf(AM_QUIZ_THEREARE_CATEGORY, $totalCategories));
+
+// InfoBox scores
+$adminObject->addInfoBoxLine(sprintf(AM_QUIZ_THEREARE_SCORES, $totalScores));
+
+// InfoBox useranswers
+$adminObject->addInfoBoxLine(sprintf(AM_QUIZ_THEREARE_USERANSWERS, $totalUseranswers));
+
+// InfoBox questions
+$adminObject->addInfoBoxLine(sprintf(AM_QUIZ_THEREARE_QUESTIONS, $totalQuestions));
+
+// InfoBox answers
+$adminObject->addInfoBoxLine(sprintf(AM_QUIZ_THEREARE_ANSWERS, $totalAnswers));
+
+//==========================================
 
 // Render Index
 $adminObject->displayNavigation(basename(__FILE__));

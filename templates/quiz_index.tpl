@@ -97,7 +97,7 @@
 
 <{if $showQuiz|default:0 == 2}>
     <div class="alert alert-info">
-        <h5><a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> :: <{$quizName}></h5>
+        <h3><a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> <{$quizName}></h3>
         <{$quizDescription}>
     </div>
     <table class='table table table-striped table-hover'>
@@ -144,7 +144,7 @@
 <{if $showQuiz|default:0 == 1}>
     <{if $emptyList != 1}>
         <div class="alert alert-info">
-            <h5><a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> :: <{$quizName}></h5>
+            <h3><a href="<{$xoops_url}>/modules/quiz/index.php?cid=<{$quizCategoryId}>"><{$quizCategory}></a> <{$quizName}></h3>
             <{$quizDescription}>
         </div>
         <{$listquestfrom.javascript}>
@@ -255,13 +255,13 @@
                     <{$questProfile.score}>
                 </td>
                 <td>
-                    <{$questProfile.userAns}>
+                    <{$questProfile.userAnswer}>
                 </td>
                 <td>
                     <{$questProfile.answer}>
                 </td>
                 <td>
-                    <{if $questProfile.userAns == $questProfile.answer}>
+                    <{if $questProfile.userAns == $questProfile.correctAnswerId}>
                         <img src="<{$xoops_url}>/modules/quiz/assets/images/valid.png">
                     <{else}>
                         <img src="<{$xoops_url}>/modules/quiz/assets/images/invalid.png">

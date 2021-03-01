@@ -80,7 +80,7 @@ try {
             $weight      = $_POST ['quizWeight'];
             $categoryId  = $_POST ['quizCategory'];
 
-            $objQuiz = new Quiz();
+            $objQuiz = new QuizBase();
             $objQuiz->set_name($name);
             $objQuiz->set_description($description);
             $objQuiz->set_btime($btime);
@@ -105,7 +105,7 @@ try {
             $weight      = $_POST ['quizWeight'];
             $categoryId  = $_POST ['quizCategory'];
 
-            $objQuiz = new Quiz();
+            $objQuiz = new QuizBase();
             $objQuiz->set_id($id);
             $objQuiz->set_name($name);
             $objQuiz->set_description($description);
@@ -126,7 +126,7 @@ try {
             if (!$confirm) {
                 throw new \Exception(_AM_QUIZ_RETURN);
             }
-            $objQuiz = new Quiz();
+            $objQuiz = new QuizBase();
             $objQuiz->set_id($id);
             $objQuiz->deleteQuiz();
             throw new \Exception(_AM_QUIZ_DELETE . '||?op=Quiz');

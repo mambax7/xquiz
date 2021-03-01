@@ -85,11 +85,11 @@ $adminmenu[] = [
     'icon'  => 'assets/images/menus/tstatistic.png',
 ];
 
-$adminmenu[] = [
-    'title' => _MI_MD_QUIZ_PERMISSIONS,
-    'link'  => 'admin/main.php?op=Permission',
-    'icon'  => 'assets/images/menus/tpermmision.png',
-];
+//$adminmenu[] = [
+//    'title' => _MI_MD_QUIZ_PERMISSIONS,
+//    'link'  => 'admin/main.php?op=Permission',
+//    'icon'  => 'assets/images/menus/tpermmision.png',
+//];
 
 
 // Blocks Admin

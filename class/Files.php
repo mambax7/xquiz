@@ -146,7 +146,8 @@ class Files
     public function getFile($id)
     {
         $sql   = 'SELECT * FROM ' . $this->table . ' WHERE fileid=' . (int)$id;
-        $array = $this->db->fetchArray($this->db->query($sql));
+        $result = $this->db->query($sql);
+        $array = $this->db->fetchArray($result);
         $this->makeFile($array);
     }
 

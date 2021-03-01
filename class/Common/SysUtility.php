@@ -182,7 +182,8 @@ class SysUtility
         $table  = $GLOBALS['xoopsDB']->prefix($tableName);
         // copy content of the record you wish to clone
         $sql = "SELECT * FROM $table WHERE $id_field='$id' ";
-        $tempTable = $GLOBALS['xoopsDB']->fetchArray($GLOBALS['xoopsDB']->query($sql), MYSQLI_ASSOC);
+        $result = $GLOBALS['xoopsDB']->query($sql);
+        $tempTable = $GLOBALS['xoopsDB']->fetchArray($result, MYSQLI_ASSOC);
         if (!$tempTable) {
             exit($GLOBALS['xoopsDB']->error());
         }
@@ -353,7 +354,8 @@ class SysUtility
     public static function fieldExists($fieldname, $table)
     {
         global $xoopsDB;
-        $result = $xoopsDB->queryF("SHOW COLUMNS FROM   $table LIKE '$fieldname'");
+        $sql = "SHOW COLUMNS FROM   $table LIKE '$fieldname'";
+        $result = $xoopsDB->queryF($sql);
 
         return ($xoopsDB->getRowsNum($result) > 0);
     }

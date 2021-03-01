@@ -11,7 +11,7 @@ define('_MI_QUIZ_QUESTIONS', 'Questions');
 define('_MI_QUIZ_STATISTICS', 'Statistics');
 define('_MI_QUIZ_MENU_ABOUT', 'About');
 define('_MI_QUIZ_PROFILE', 'My Score');
-define('_MI_QUIZ_MENU_PERMISSIONS', 'Permissions2');
+define('_MI_QUIZ_MENU_PERMISSIONS', 'Permissions');
 
 
 

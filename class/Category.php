@@ -224,9 +224,9 @@ class Category extends \XoopsTree
      */
     public function getNumberList()
     {
-        $query = ' SELECT * FROM ' . $this->table;
-        $query = $this->db->query($query);
-        $myrow = $this->db->fetchArray($query);
+        $sql = ' SELECT * FROM ' . $this->table;
+        $result = $this->db->query($sql);
+        $myrow = $this->db->fetchArray($result);
         return count($myrow);;
     }
 
@@ -272,7 +272,8 @@ class Category extends \XoopsTree
     public static function retrieveCategory($eId)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT cid,title FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE cid = '$eId'");
+        $sql = 'SELECT cid,title FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE cid = '$eId'";
+        $query = $xoopsDB->query($sql);
         $myrow = $xoopsDB->fetchArray($query);
         return $myrow;
     }
@@ -332,9 +333,9 @@ class Category extends \XoopsTree
     public static function addCategory($title, $pid, $desc, $imgurl, $weight)
     {
         global $xoopsDB;
-        $query = 'Insert into ' . $xoopsDB->prefix('quiz_categories') . "(cid ,pid ,title ,description ,imgurl ,weight)
+        $sql = 'Insert into ' . $xoopsDB->prefix('quiz_categories') . "(cid ,pid ,title ,description ,imgurl ,weight)
 				VALUES (NULL , '$pid', '$title', '$desc', '$imgurl', '$weight');";
-        $res   = $xoopsDB->query($query);
+        $res   = $xoopsDB->query($sql);
 
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
@@ -355,7 +356,7 @@ class Category extends \XoopsTree
     public static function editCategory($cid, $title, $pid, $desc, $imgurl, $weight)
     {
         global $xoopsDB;
-        $query = 'UPDATE ' . $xoopsDB->prefix('quiz_categories') . " SET 
+        $sql = 'UPDATE ' . $xoopsDB->prefix('quiz_categories') . " SET 
 					  pid = '$pid'
 					 ,title = '$title'
 					 ,description = '$desc'
@@ -363,7 +364,7 @@ class Category extends \XoopsTree
 					 ,weight = '$weight'
 					 WHERE cid = '$cid' ";
 
-        $res = $xoopsDB->query($query);
+        $res = $xoopsDB->query($sql);
 
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
@@ -382,17 +383,17 @@ class Category extends \XoopsTree
 
         global $module_id;
         $perm_name = 'quiz_view';
-        $query     = 'DELETE FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE  
+        $sql     = 'DELETE FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE  
 					  cid = '$id' ";
-        $res       = $xoopsDB->query($query);
+        $res       = $xoopsDB->query($sql);
         xoops_groupperm_deletebymoditem($module_id, $perm_name, $id);
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
         //delet quiz of category
-        $query = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE  
+        $sql = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE  
 					  cid = '$id' ";
-        $res   = $xoopsDB->query($query);
+        $res   = $xoopsDB->query($sql);
         xoops_groupperm_deletebymoditem($module_id, $perm_name, $id);
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
@@ -401,9 +402,9 @@ class Category extends \XoopsTree
         //Delete subcategories and subquizs
         foreach ($list as $cid) {
             $perm_name = 'quiz_view';
-            $query     = 'DELETE FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE  
+            $sql     = 'DELETE FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE  
 						cid = '$cid' ";
-            $res       = $xoopsDB->query($query);
+            $res       = $xoopsDB->query($sql);
             xoops_groupperm_deletebymoditem($module_id, $perm_name, $cid);
         }
     }
@@ -435,8 +436,9 @@ class Category extends \XoopsTree
     public static function checkExistCategory($cid)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE cid='$cid'");
-        $res   = $xoopsDB->getRowsNum($query);
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_categories') . " WHERE cid='$cid'";
+        $result = $xoopsDB->query($sql);
+        $res   = $xoopsDB->getRowsNum($result);
 
         if ($res > 0) {
             return true;

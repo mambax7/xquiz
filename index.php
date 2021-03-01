@@ -25,6 +25,7 @@ use Xmf\Module\Admin;
 use XoopsModules\Quiz\{Category,
     Helper,
     QuizBase,
+    Question,
     Questions,
     Utility
 };
@@ -233,8 +234,9 @@ try {
             global $xoopsModuleConfig;
             $dateformat = $xoopsModuleConfig ['dateformat'];
             $q          = 1;
-            $query      = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' WHERE id = ' . $id . ' ORDER BY score DESC LIMIT ' . $eu . ' , ' . $limit);
-            while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+            $sql        = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' WHERE id = ' . $id . ' ORDER BY score DESC LIMIT ' . $eu . ' , ' . $limit;
+            $result     = $xoopsDB->query($sql);
+            while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
                 $listQuiz [$q] ['id']     = $myrow ['id'];
                 $listQuiz [$q] ['userid'] = $myrow ['userid'];
 
@@ -259,7 +261,7 @@ try {
             $user = $xoopsUser->getVar('uid');
 
             if (isset($pdid)) {
-                $list = userQuestLoader($pdid, $user);
+                $list = Utility::userQuestLoader($pdid, $user);
                 $xoopsTpl->assign('showQuiz', 4);
                 $xoopsTpl->assign('userid', $user);
                 $xoopsTpl->assign('questProfile', $list);
@@ -387,12 +389,14 @@ try {
                 case 'MC':
                     $score = 0;
                     foreach ($questObj->getAnswers() as $corrects) {
+                        $score = 0;//mb
                         if (($corrects->getAid() == $ans) && ($corrects->getIs_correct() == 1)) {
                             $score = $questObj->getScore();
+                            $sumScore += $score; //mb
                             break;
                         }
                     }
-                    $sumScore += $score;
+//mb                    $sumScore += $score;
 
                     echo "<pre> Multi choise answers<br>";
                     print_r($questObj->getAnswers());
@@ -437,68 +441,77 @@ try {
                     break;
             }
             echo "<br>Sum of Score :$sumScore ";
-            /*
-             $date = date ( DATE_ATOM );
-             $query = "INSERT INTO " . $xoopsDB->prefix ( 'quiz_score' ) . "
-             (id ,userid ,score ,date) VALUES('$quizId','$user','$sumScore','$date')";
-             $res = $xoopsDB->query ( $query );
-             if (! $res)
-             throw new Exception ( _MD_QUIZ_DATABASE );
-             if ($xoopsModuleConfig ['mailScore'])
-             sendEmail ( $user, $sumScore, $quizId );
-             $quizScore = '';
-             if ($xoopsModuleConfig ['seeScore'])
-             $quizScore = "<br>" . _MD_QUIZ_FINAL_SCORE . " = " . $sumScore;
-             throw new Exception ( _MD_QUIZ_ADD_SCORE . $quizScore );
-            */
+
+//            $date  = date(DATE_ATOM);
+//            $sql = "INSERT INTO " . $xoopsDB->prefix('quiz_score') . " (id ,userid ,score ,date) VALUES('$quizId','$user','$sumScore','$date')";
+//            $res   = $xoopsDB->query($sql);
+//            if (!$res) {
+//                throw new Exception (_MD_QUIZ_DATABASE);
+//            }
+//            if ($xoopsModuleConfig ['mailScore']) {
+//                Utility::sendEmail($user, $sumScore, $quizId);
+//            }
+//            $quizScore = '';
+//            if ($xoopsModuleConfig ['seeScore']) {
+//                $quizScore = "<br>" . _MD_QUIZ_FINAL_SCORE . " = " . $sumScore;
+//            }
+//            throw new Exception (_MD_QUIZ_ADD_SCORE . $quizScore);
         }
-        /*
-          if (! $GLOBALS ['xoopsSecurity']->check ())
-            throw new Exception ( _MD_QUIZ_QUEST_SECURITY_ERROR );
 
-            if (empty ( $xoopsUser ))
-            throw new Exception ( _MD_QUIZ_REGISTER_QUIZ );
+        if (!$GLOBALS ['xoopsSecurity']->check()) {
+            throw new Exception (_MD_QUIZ_QUEST_SECURITY_ERROR);
+        }
 
-            $myts = myTextSanitizer::getInstance ();
-            $quizId = $myts->addslashes ( $_POST ['quizId'] );
-            $user = $xoopsUser->getVar ( "uid" );
-            $userQuizScore = findUserScore ( $user, $quizId );
-            if ($userQuizScore)
-            throw new Exception ( _MD_QUIZ_DUPLICATE_QUIZ );
+        if (empty ($xoopsUser)) {
+            throw new Exception (_MD_QUIZ_REGISTER_QUIZ);
+        }
 
-            $listQuestion = Question::listQuestLoader ( $quizId );
-            $userScore = 0;
-            $query = "INSERT INTO " . $xoopsDB->prefix ( 'quiz_useranswers' ) . "
-            (questId ,quizId ,userId ,userAns) VALUES ";
-            $delim = '';
-            foreach ( $listQuestion as $key ) {
-            $query .= $delim;
-            if (isset ( $_POST [$key ['qnumber']] )) {
-            if ($myts->addslashes ( $_POST [$key ['qnumber']] ) == $key ['answer'])
-            $userScore += $key ['score'];
+        $myts          = myTextSanitizer::getInstance();
+        $quizId        = $myts->addslashes($_POST ['quizId']);
+        $user          = $xoopsUser->getVar("uid");
+        $userQuizScore = Utility::findUserScore($user, $quizId);
+        if ($userQuizScore) {
+            throw new Exception (_MD_QUIZ_DUPLICATE_QUIZ);
+        }
+
+        $listQuestion = Questions::listQuestLoader($quizId);
+        $userScore    = 0;
+        $sql        = "INSERT INTO " . $xoopsDB->prefix('quiz_useranswers') . " (questId ,quizId ,userId ,userAns) VALUES ";
+        $delim        = '';
+        foreach ($listQuestion as $key) {
+            $sql .= $delim;
+//            if (isset ($_POST[$key['qnumber']])) {
+            if (isset ($_POST['questId'][$key['qnumber']-1])) {
+//                if ($myts->addslashes($_POST[$key['qnumber']]) == $key['answer']) {
+                if ($_POST['questId'][$key['qnumber']-1] == $key['question_id']) {
+                    $userScore += $key['score'];
+                }
             }
-            $id = $key ['id'];
-            $ans = $myts->addslashes ( $_POST [$key ['qnumber']] );
-            $query .= "('$id','$quizId','$user','$ans')";
+            $id    = $key['question_id'];
+//            $ans   = $myts->addslashes($_POST[$key['qnumber']]);
+            $ans = $_POST['questAns'][$key['qnumber']-1];
+            $sql   .= "('$id','$quizId','$user','$ans')";
             $delim = ',';
-            }
-            $res = $xoopsDB->query ( $query );
-            if (! $res)
-            throw new Exception ( _MD_QUIZ_DATABASE );
+        }
+        $res = $xoopsDB->query($sql);
+        if (!$res) {
+            throw new Exception (_MD_QUIZ_DATABASE);
+        }
 
-            $date = date ( DATE_ATOM );
-            $query = "INSERT INTO " . $xoopsDB->prefix ( 'quiz_score' ) . "
-            (id ,userid ,score ,date) VALUES('$quizId','$user','$userScore','$date')";
-            $res = $xoopsDB->query ( $query );
-            if (! $res)
-            throw new Exception ( _MD_QUIZ_DATABASE );
-            if ($xoopsModuleConfig ['mailScore'])
-            sendEmail ( $user, $userScore, $quizId );
-            $quizScore = '';
-            if ($xoopsModuleConfig ['seeScore'])
-            $quizScore = "<br>" . _MD_QUIZ_FINAL_SCORE . " = " . $userScore;
-            throw new Exception ( _MD_QUIZ_ADD_SCORE . $quizScore );
-            */
+        $date  = date(DATE_ATOM);
+        $sql = "INSERT INTO " . $xoopsDB->prefix('quiz_score') . " (id ,userid ,score ,date) VALUES('$quizId','$user','$sumScore','$date')";
+        $res   = $xoopsDB->query($sql);
+        if (!$res) {
+            throw new Exception (_MD_QUIZ_DATABASE);
+        }
+        if ($xoopsModuleConfig ['mailScore']) {
+            Utility::sendEmail($user, $userScore, $quizId);
+        }
+        $quizScore = '';
+        if ($xoopsModuleConfig ['seeScore']) {
+            $quizScore = "<br>" . _MD_QUIZ_FINAL_SCORE . " = " . $sumScore;
+        }
+        throw new Exception (_MD_QUIZ_ADD_SCORE . $quizScore);
     }
     //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 } catch (Exception $e) {

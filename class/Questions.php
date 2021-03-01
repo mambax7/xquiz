@@ -168,7 +168,8 @@ class Questions
         global $xoopsDB;
         $listQuiz = [];
         $q        = 1;
-        $query    = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . ' WHERE quiz_id = ' . $qid . ' LIMIT ' . $eu . ' , ' . $limit);
+        $sql = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . ' WHERE quiz_id = ' . $qid . ' LIMIT ' . $eu . ' , ' . $limit;
+        $query    = $xoopsDB->query($sql);
         while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
             $listQuiz [$q] ['id']       = $myrow ['question_id'];
             $listQuiz [$q] ['qid']      = $myrow ['quiz_id'];
@@ -194,7 +195,8 @@ class Questions
     public static function questions_numOfQuestions($qId)
     {
         global $xoopsDB;
-        $result = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = $qId");
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = $qId";
+        $result = $xoopsDB->query($sql);
         return $xoopsDB->getRowsNum($result);
     }
 
@@ -602,12 +604,12 @@ class Questions
     public function addQuestion($ans, $is_cor)
     {
         global $xoopsDB;
-        $query = 'Insert into ' . $xoopsDB->prefix('quiz_questions') . "
+        $sql = 'INSERT INTO ' . $xoopsDB->prefix('quiz_questions') . "
 				(quiz_id,question_type,question,qnumber,score)
 				VALUES ( '$this->qid', '$this->type', '$this->question','$this->qnumber',
 				'$this->score');";
 
-        $res      = $xoopsDB->query($query);
+        $res      = $xoopsDB->query($sql);
         $this->id = $xoopsDB->getInsertId();
         for ($i = 1, $iMax = count($ans); $i <= $iMax; ++$i) {
             $answerObj = new Answer();
@@ -639,8 +641,9 @@ class Questions
     public static function questionNumber($quizId)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT COUNT(quiz_id) AS CID FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = '$quizId'");
-        $myrow = $xoopsDB->fetchArray($query);
+        $sql = 'SELECT COUNT(quiz_id) AS CID FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = '$quizId'";
+        $result = $xoopsDB->query($sql);
+        $myrow = $xoopsDB->fetchArray($result);
         return $myrow ['CID'];
     }
 
@@ -656,16 +659,19 @@ class Questions
     {
         global $xoopsDB;
         $this->id       = $questId;
-        $query          = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE question_id = '$this->id'");
-        $myrow          = $xoopsDB->fetchArray($query);
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE question_id = '$this->id'";
+        $result          = $xoopsDB->query($sql);
+        $myrow          = $xoopsDB->fetchArray($result);
         $this->qid      = $myrow ['quiz_id'];
         $this->qnumber  = $myrow ['qnumber'];
         $this->score    = $myrow ['score'];
         $this->type     = $myrow ['question_type'];
         $this->question = $myrow ['question'];
-        $query          = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_answers') . " WHERE question_id = '$this->id'");
 
-        while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_answers') . " WHERE question_id = '$this->id'";
+        $result          = $xoopsDB->query($sql);
+
+        while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
             $answerObj = new Answer();
             $answerObj->setAnswer($myrow ['answer']);
             $answerObj->setAid($myrow ['answer_id']);
@@ -689,13 +695,13 @@ class Questions
     public function editQuestion($ans, $is_cor)
     {
         global $xoopsDB;
-        $query = 'UPDATE ' . $xoopsDB->prefix('quiz_questions') . " SET 
+        $sql = 'UPDATE ' . $xoopsDB->prefix('quiz_questions') . " SET 
 					  quiz_id = '$this->qid'
 					 ,question = '$this->question'
 					 ,qnumber = '$this->qnumber'
 					 ,score = '$this->score'
 					 WHERE question_id = '$this->id' ";
-        $res   = $xoopsDB->query($query);
+        $res   = $xoopsDB->query($sql);
 
         Answer::deleteAnswers($this->getId());
         for ($i = 1, $iMax = count($ans); $i <= $iMax; ++$i) {
@@ -722,9 +728,9 @@ class Questions
     public function deleteQuestion()
     {
         global $xoopsDB;
-        $query = 'DELETE FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE  
+        $sql = 'DELETE FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE  
 					  question_id = '$this->id' ";
-        $res   = $xoopsDB->query($query);
+        $res   = $xoopsDB->query($sql);
         Answer::deleteAnswers($this->id);
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
@@ -775,14 +781,16 @@ class Questions
         global $xoopsDB;
         $listQuest = [];
         $q         = 1;
-        $query     = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = $qId");
-        while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE quiz_id = $qId";
+        $result     = $xoopsDB->query($sql);
+        while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
             $listQuest[$q]['question_id']   = $myrow['question_id'];
             $listQuest[$q]['question_type'] = $myrow['question_type'];
             $listQuest[$q]['question']      = $myrow['question'];
             $listQuest[$q]['qnumber']       = $myrow['qnumber'];
             $listQuest[$q]['score']         = $myrow['score'];
-            $qry                            = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_answers') . ' WHERE question_id = ' . $myrow['question_id']);
+            $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_answers') . ' WHERE question_id = ' . $myrow['question_id'];
+            $qry                            = $xoopsDB->query($sql);
             if (0 != $xoopsDB->getRowsNum($qry)) {
                 $listQuest[$q]['answer'] = [];
                 $t                       = 1;

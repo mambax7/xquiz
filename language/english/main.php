@@ -1,5 +1,7 @@
 <?php
 
+global $xoopsConfig;
+
 define('_MD_QUIZ_MODULENAME', 'Quiz');
 define('_MD_QUIZ_CATEGORIES', 'Categories');
 define('_MD_QUIZ_DETAIL', 'View details');
@@ -7,7 +9,7 @@ define('_MD_QUIZ_DUPLICATE_QUIZ', 'You have already tried out this test,no score
 define('_MD_QUIZ_CATEGORY_TITLE', 'Title');
 define('_MD_QUIZ_CATEGORY_IMAGE', 'Category Image');
 define('_MD_QUIZ_QUEST_SECURITY_ERROR', 'Error in submitted data,please try again .');
-define('_MD_QUIZ_USER_ANSWER', 'User ansewer');
+define('_MD_QUIZ_USER_ANSWER', 'User answer');
 define('_MD_QUIZ_AC_COPYRIGHT', 'M-Jamali');
 define('_MD_QUIZ_QUEST_TOTAL', 'Total Question');
 define('_MD_QUIZ_QUEST_SCORE', 'Score');
@@ -22,7 +24,7 @@ define('_MD_QUIZ_QUEST_EMPTY', 'No questions have been provided for this section
 define('_MD_QUIZ_PREFERENCES', 'Features');
 define('_MD_QUIZ_UPDATE', 'Update');
 define('_MD_QUIZ_QUEST_NUMBER_ERROR', 'Submitted data error');
-define('_MD_QUIZ_USER_ANSWER_DETAIL', 'user answer details');
+define('_MD_QUIZ_USER_ANSWER_DETAIL', 'User Answer Details');
 define('_MD_QUIZ_NEXT', 'Next');
 define('_MD_QUIZ_PREV', 'Previous');
 define('_MD_QUIZ_USER', 'User');

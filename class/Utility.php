@@ -40,11 +40,9 @@ class Utility extends Common\SysUtility
     public static function findUserScore($userId, $id)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query(
-            'SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . " WHERE id = $id AND userid = '$userId'"
-        );
-
-        $res = $xoopsDB->getRowsNum($query);
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . " WHERE id = $id AND userid = '$userId'";
+        $result = $xoopsDB->query($sql);
+        $res = $xoopsDB->getRowsNum($result);
         if ($res > 0) {
             return true;
         } else {
@@ -61,7 +59,8 @@ class Utility extends Common\SysUtility
     public static function numUserScore($qId)
     {
         global $xoopsDB;
-        $result = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . " WHERE id = $qId");
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . " WHERE id = $qId";
+        $result = $xoopsDB->query($sql);
         return $xoopsDB->getRowsNum($result);
     }
 
@@ -161,20 +160,56 @@ class Utility extends Common\SysUtility
     {
         global $xoopsDB;
         $list  = [];
-        $query = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_useranswers') . ' 
-			NATURAL JOIN ' . $xoopsDB->prefix('quiz_quizquestion') . " 
-			WHERE userId = $uid AND quizId=$quizId AND questId=id";
-        $query = $xoopsDB->query($query);
+        $listUserAnswer  = [];
+
+
+//        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_useranswers')
+//               . ' NATURAL JOIN ' . $xoopsDB->prefix('quiz_questions')
+//               . " WHERE userId = $uid AND quizId=$quizId AND questId=question_id";
+
+        //User Answers
+        $sql2 =  'SELECT ua.questId, ua.userAns, qa.answer, qa.is_correct FROM ' . $xoopsDB->prefix('quiz_useranswers') . ' as ua'
+                 . ' JOIN ' . $xoopsDB->prefix('quiz_answers') . ' as qa'
+                 . " WHERE ua.userId = $uid AND ua.quizId=$quizId AND ua.userAns=qa.answer_id";
+
+
+        $result2 = $xoopsDB->query($sql2);
+
         $q     = 0;
-        while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
-            $list[$q]['questId']  = $myrow['questId'];
-            $list[$q]['userAns']  = $myrow['userAns'];
-            $list[$q]['qnumber']  = $myrow['qnumber'];
-            $list[$q]['score']    = $myrow['score'];
-            $list[$q]['answer']   = $myrow['answer'];
-            $list[$q]['question'] = $myrow['question'];
-            $q++;
+        while (false !== ($myrow = $xoopsDB->fetchArray($result2))) {
+            $listUserAnswer[$q]['questId']    = $myrow['questId'];
+            $listUserAnswer[$q]['userAns']    = $myrow['userAns'];
+            $listUserAnswer[$q]['answer']     = $myrow['answer'];
+            $listUserAnswer[$q]['is_correct'] = $myrow['is_correct'];
+            ++$q;
         }
+
+        //Correct Answers
+        $sql1 =  'SELECT * FROM ' . $xoopsDB->prefix('quiz_useranswers') . ' as ua'
+                . ' NATURAL JOIN ' . $xoopsDB->prefix('quiz_questions') . ' as qq'
+                . ' INNER  JOIN ' . $xoopsDB->prefix('quiz_answers') . ' as qa'
+                . " WHERE ua.userId = $uid AND ua.quizId=$quizId AND ua.questId=qq.question_id and ua.questId=qa.question_id and qa.is_correct=1";
+
+        $result1 = $xoopsDB->query($sql1);
+
+        $q     = 0;
+        while (false !== ($myrow = $xoopsDB->fetchArray($result1))) {
+            $list[$q]['questId'] = $myrow['questId'];
+            $list[$q]['userAns'] = $myrow['userAns'];
+            $list[$q]['qnumber'] = $myrow['qnumber'];
+            $score               = 0;
+            if (1 == $listUserAnswer[$q]['is_correct']) {
+                $score = $myrow['score'];
+            }
+            $list[$q]['score'] = $score;
+            $list[$q]['correctAnswerId'] = $myrow['answer_id'];
+            $list[$q]['answer']          = $myrow['answer'];
+            $list[$q]['question']        = $myrow['question'];
+            $list[$q]['userAnswer']      = $listUserAnswer[$q]['answer'];
+            ++$q;
+        }
+
+
         return $list;
     }
 
@@ -184,8 +219,9 @@ class Utility extends Common\SysUtility
      */
     public static function showUserQuest($quizId, $uid)
     {
-        global $memberHandler;
-        $list = userQuestLoader($quizId, $uid);
+        /** @var \XoopsMemberHandler $memberHandler */
+        $memberHandler = \xoops_getHandler('member');
+        $list = self::userQuestLoader($quizId, $uid);
 
         $configurator = new Configurator();
         $icons = $configurator->icons;
@@ -214,10 +250,10 @@ class Utility extends Common\SysUtility
 							" . _AM_QUIZ_QUEST_NAME . '
 						</th>
 						<th>
-							' . _AM_QUIZ_QUEST_CORRECT . '
+							' . _AM_QUIZ_QUEST_SCORE . '
 						</th>
 						<th>
-							' . _AM_QUIZ_QUEST_SCORE . '
+							' . _AM_QUIZ_QUEST_CORRECT . '
 						</th>
 						<th>
 							' . _AM_QUIZ_USER_ANSWER . '
@@ -233,21 +269,21 @@ class Utility extends Common\SysUtility
         $invalidImage = '<img src= "' . XOOPS_URL . "/modules/quiz/assets/images/invalid.png \" alt='' >";
         $ts           = \MyTextSanitizer::getInstance();
         foreach ($list as $key) {
-            $correct = ($key['answer'] == $key['userAns']) ? $validImage : $invalidImage;
+            $correct = ($key['userAns'] == $key['correctAnswerId']) ? $validImage : $invalidImage;
             $class   = ('even' == $class) ? 'odd' : 'even';
             $temp    .= "
 			<tr class='" . $class . "'>
-				<td>
+				<td  class='left'>
 				" . $key['qnumber'] . '-' . $ts->previewTarea($key['question'], 1, 1, 1, 1, 1) . '
-				</td>
-				<td>
-				' . $key['answer'] . '
 				</td>
 				<td>
 				' . $key['score'] . '
 				</td>
 				<td>
-				' . $key['userAns'] . '
+				' . $key['answer'] . '
+				</td>				
+				<td>
+				' . $key['userAnswer'] . '
 				</td>
 				<td>
 				' . $correct . '
@@ -268,12 +304,12 @@ class Utility extends Common\SysUtility
         global $xoopsDB, $xoopsModuleConfig;
         $dateformat = $xoopsModuleConfig['dateformat']??'';
         $list       = [];
-        $query      = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' 
+        $sql      = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' 
 			NATURAL JOIN ' . $xoopsDB->prefix('quiz_quizzes') . " 
 			WHERE userid = $uid";
-        $query      = $xoopsDB->query($query);
+        $result      = $xoopsDB->query($sql);
         $q          = 0;
-        while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+        while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
             $list[$q]['id']    = $myrow['id'];
             $list[$q]['name']  = $myrow['name'];
             $list[$q]['score'] = $myrow['score'];

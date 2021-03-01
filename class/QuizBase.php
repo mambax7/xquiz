@@ -325,9 +325,9 @@ class QuizBase
     public function addQuiz()
     {
         global $xoopsDB;
-        $query = 'Insert into ' . $xoopsDB->prefix('quiz_quizzes') . "(id ,name ,description ,bdate ,edate ,weight ,cid)
+        $sql = 'Insert into ' . $xoopsDB->prefix('quiz_quizzes') . "(id ,name ,description ,bdate ,edate ,weight ,cid)
 				VALUES (NULL , '$this->name', '$this->description', '$this->bdate', '$this->edate', '$this->weight', '$this->categoryId');";
-        $res   = $xoopsDB->query($query);
+        $res   = $xoopsDB->query($sql);
 
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
@@ -343,16 +343,16 @@ class QuizBase
     {
         global $xoopsDB, $xoopsModule;
 
-        $query = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE  
+        $sql = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE  
 					  id = '$this->id' ";
-        $res   = $xoopsDB->query($query);
+        $res   = $xoopsDB->query($sql);
         xoops_comment_delete($xoopsModule->getVar('mid'), $this->id);
 
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
 
-        $query = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizquestion') . " WHERE  
+        $sql = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizquestion') . " WHERE  
 					  qid = '$this->id' ";
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
@@ -367,7 +367,7 @@ class QuizBase
     public function editQuiz()
     {
         global $xoopsDB;
-        $query = 'UPDATE ' . $xoopsDB->prefix('quiz_quizzes') . " SET 
+        $sql = 'UPDATE ' . $xoopsDB->prefix('quiz_quizzes') . " SET 
 					  name = '$this->name'
 					 ,description = '$this->description'
 					 ,bdate = '$this->bdate'
@@ -375,7 +375,7 @@ class QuizBase
 					 ,weight = '$this->weight'
 					 ,cid = '$this->categoryId'
 					 WHERE id = '$this->id' ";
-        $res   = $xoopsDB->query($query);
+        $res   = $xoopsDB->query($sql);
 
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
@@ -388,8 +388,9 @@ class QuizBase
     public function checkExistQuiz()
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE name LIKE '$this->name'");
-        $res   = $xoopsDB->getRowsNum($query);
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE name LIKE '$this->name'";
+        $result = $xoopsDB->query($sql);
+        $res   = $xoopsDB->getRowsNum($result);
 
         if ($res > 0) {
             return true;
@@ -405,8 +406,9 @@ class QuizBase
     public static function retrieveQuiz($qId)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE id = '$qId'");
-        $myrow = $xoopsDB->fetchArray($query);
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE id = '$qId'";
+        $result = $xoopsDB->query($sql);
+        $myrow = $xoopsDB->fetchArray($result);
         return $myrow;
     }
 
@@ -659,7 +661,8 @@ class QuizBase
     public static function quiz_numQuizLoader()
     {
         global $xoopsDB;
-        $result = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes'));
+        $sql = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes');
+        $result = $xoopsDB->query($sql);
         return $xoopsDB->getRowsNum($result);
     }
 
@@ -675,14 +678,14 @@ class QuizBase
         $dateformat = $xoopsModuleConfig['dateformat']??'';
         $listQuiz   = [];
         $q          = 1;
-        $query      = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes');
+        $sql      = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes');
         if ($categoryId >= 0) {
-            $query .= ' WHERE cid = ' . $categoryId;
+            $sql .= ' WHERE cid = ' . $categoryId;
         }
-        $query .= ' LIMIT ' . $eu . ' , ' . $limit;
+        $sql .= ' LIMIT ' . $eu . ' , ' . $limit;
 
-        $query = $xoopsDB->query($query);
-        while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+        $result = $xoopsDB->query($sql);
+        while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
             $listQuiz[$q]['id']          = $myrow['id'];
             $listQuiz[$q]['name']        = $myrow['name'];
             $listQuiz[$q]['description'] = $myrow['description'];
@@ -692,7 +695,8 @@ class QuizBase
             $listQuiz[$q]['weight']      = $myrow['weight'];
             global $xoopsDB;
             $id                            = $myrow['id'];
-            $totalquestion                 = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . ' WHERE quiz_id = ' . $id . '');
+            $sql = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_questions') . ' WHERE quiz_id = ' . $id . '';
+            $totalquestion                 = $xoopsDB->query($sql);
             $listQuiz[$q]['totalquestion'] = $xoopsDB->getRowsNum($totalquestion);
 
             $today = strtotime(date('Y-m-d'));
@@ -734,8 +738,9 @@ class QuizBase
         global $xoopsDB;
         $listQuiz = [];
         $q        = 1;
-        $query    = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' ORDER BY id DESC');
-        while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+        $sql = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' ORDER BY id DESC';
+        $result    = $xoopsDB->query($sql);
+        while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
             $listQuiz[$q]['id']   = $myrow['id'];
             $listQuiz[$q]['name'] = $myrow['name'];
             $q++;
@@ -750,8 +755,9 @@ class QuizBase
     {
         global $xoopsDB;
         $listQuiz = [];
-        $query    = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' ORDER BY \'bdate\' ASC');
-        while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+        $sql = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' ORDER BY \'bdate\' ASC';
+        $result    = $xoopsDB->query($sql);
+        while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
             $listQuiz[$myrow['id']] = $myrow['name'];
         }
         return $listQuiz;
@@ -764,8 +770,9 @@ class QuizBase
     public static function quiz_checkActiveQuiz($id)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query(' SELECT bdate FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id);
-        $myrow = $xoopsDB->fetchArray($query);
+        $sql = ' SELECT bdate FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id;
+        $result = $xoopsDB->query($sql);
+        $myrow = $xoopsDB->fetchArray($result);
         $today = strtotime(date('Y-m-d'));
         if (strtotime($myrow['bdate']) <= $today) {
             return true;
@@ -781,8 +788,9 @@ class QuizBase
     public static function quiz_checkExpireQuiz($id)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query(' SELECT edate FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id);
-        $myrow = $xoopsDB->fetchArray($query);
+        $sql = ' SELECT edate FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id;
+        $result = $xoopsDB->query($sql);
+        $myrow = $xoopsDB->fetchArray($result);
         $today = strtotime(date('Y-m-d'));
         if (strtotime($myrow['edate']) >= $today) {
             return true;
@@ -798,10 +806,9 @@ class QuizBase
     public static function quiz_quizName($id)
     {
         global $xoopsDB;
-        $query    = $xoopsDB->query(
-            ' SELECT name,cid,description FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id
-        );
-        $myrow    = $xoopsDB->fetchArray($query);
+        $sql = ' SELECT name,cid,description FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id;
+        $result    = $xoopsDB->query($sql);
+        $myrow    = $xoopsDB->fetchArray($result);
         $category = Category::retrieveCategory($myrow['cid']);
         $arr      = [
             'name'        => $myrow['name'],
@@ -819,8 +826,9 @@ class QuizBase
     public static function quizCategory($id)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query(' SELECT cid FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id);
-        $myrow = $xoopsDB->fetchArray($query);
+        $sql = ' SELECT cid FROM ' . $xoopsDB->prefix('quiz_quizzes') . ' WHERE id = ' . $id;
+        $result = $xoopsDB->query($sql);
+        $myrow = $xoopsDB->fetchArray($result);
         return $myrow['cid'];
     }
 
@@ -831,8 +839,9 @@ class QuizBase
     public static function quiz_checkExistQuiz($id)
     {
         global $xoopsDB;
-        $query = $xoopsDB->query('SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE id = '$id'");
-        $res   = $xoopsDB->getRowsNum($query);
+        $sql = 'SELECT * FROM ' . $xoopsDB->prefix('quiz_quizzes') . " WHERE id = '$id'";
+        $result = $xoopsDB->query($sql);
+        $res   = $xoopsDB->getRowsNum($result);
         if ($res > 0) {
             return true;
         }

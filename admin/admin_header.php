@@ -42,17 +42,21 @@ $adminObject = Admin::getInstance();
 $helper->loadLanguage('admin');
 $helper->loadLanguage('modinfo');
 $helper->loadLanguage('common');
+$helper->loadLanguage('main');
 
-///** @var \XoopsPersistableObjectHandler $answersHandler */
-//$answersHandler = $helper->getHandler('Answer');
-///** @var \XoopsPersistableObjectHandler $categoriesHandler */
-//$categoriesHandler = $helper->getHandler('Category');
-///** @var \XoopsPersistableObjectHandler $questionHandler */
-//$questionHandler = $helper->getHandler('Question');
-///** @var \XoopsPersistableObjectHandler $questionsHandler */
-//$questionsHandler = $helper->getHandler('Questions');
-///** @var \XoopsPersistableObjectHandler $quizHandler */
-//$quizHandler = $helper->getHandler('Quiz');
+
+/** @var \XoopsPersistableObjectHandler $quizzesHandler */
+$quizzesHandler  = $helper->getHandler('Quizzes');
+/** @var \XoopsPersistableObjectHandler $categoriesHandler */
+$categoriesHandler  = $helper->getHandler('Categories');
+/** @var \XoopsPersistableObjectHandler $scoresHandler */
+$scoresHandler  = $helper->getHandler('Scores');
+/** @var \XoopsPersistableObjectHandler $useranswersHandler */
+$useranswersHandler  = $helper->getHandler('Useranswers');
+/** @var \XoopsPersistableObjectHandler $questionsHandler */
+$questionsHandler  = $helper->getHandler('Questions');
+/** @var \XoopsPersistableObjectHandler $answersHandler */
+$answersHandler  = $helper->getHandler('Answers');
 
 //$myts = \MyTextSanitizer::getInstance();
 

@@ -72,7 +72,7 @@ define('_AM_QUIZ_QUEST_EDIT', 'Question edited successfully.');
 define('_AM_QUIZ_QUEST_DELETE', 'Question deleted successfully');
 define('_AM_QUIZ_QUEST_NAME', 'Question');
 define('_AM_QUIZ_QUEST_NUM', 'Question Number');
-define('_AM_QUIZ_QUEST_CORRECT', 'Correct option');
+define('_AM_QUIZ_QUEST_CORRECT', 'Correct answer');
 define('_AM_QUIZ_NAME', 'Quiz title');
 define('_AM_QUIZ_DESC', 'Quiz details');
 define('_AM_QUIZ_BDATE', 'Date of beginning');
@@ -134,16 +134,24 @@ define('_AM_QUIZ_STARTDATE', 'Start Date');
 define('_AM_QUIZ_ENDDATE', 'End Date');
 define('_AM_QUIZ_TAKEQUIZ', 'Take Quiz');
 define('_AM_QUIZ_DATETAKEN', 'Date Taken');
+define('_AM_QUIZ_USER_ANSWER', 'User answer');
+
 
 //Index
 define('AM_QUIZ_STATISTICS', 'Quiz statistics');
 define('AM_QUIZ_THEREARE_QUESTION', "There are <span class='bold'>%s</span> Question in the database");
 define('AM_QUIZ_THEREARE_QUIZ', "There are <span class='bold'>%s</span> Quiz in the database");
-define('AM_QUIZ_THEREARE_CATEGORY', "There are <span class='bold'>%s</span> Category in the database");
+define('AM_QUIZ_THEREARE_CATEGORY', "There are <span class='bold'>%s</span> Categories in the database");
 define('AM_QUIZ_THEREARE_USERS', "There are <span class='bold'>%s</span> Users in the database");
 define('AM_QUIZ_THEREARE_QUESTIONUSER', "There are <span class='bold'>%s</span> QuestionUser in the database");
 define('AM_QUIZ_THEREARE_QUESTIONS', "There are <span class='bold'>%s</span> Questions in the database");
 define('AM_QUIZ_THEREARE_ANSWERS', "There are <span class='bold'>%s</span> Answers in the database");
+
+
+define('AM_QUIZ_THEREARE_QUIZZES', "There are <span class='bold'>%s</span> Quizzes in the database");
+define('AM_QUIZ_THEREARE_SCORES', "There are <span class='bold'>%s</span> Scores in the database");
+define('AM_QUIZ_THEREARE_USERANSWERS', "There are <span class='bold'>%s</span> UserAnswers in the database");
+
 
 //Permissions
 define('AM_QUIZ_PERMISSIONS_GLOBAL', 'Global permissions');

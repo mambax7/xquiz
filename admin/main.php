@@ -156,10 +156,12 @@ try {
             ////////////////////////////////////////////////////////////////
             if (isset($_GET ['uid']) && is_numeric($_GET ['uid']) && isset($id)) {
                 $uid = $_GET ['uid'];
-                $arr = showUserQuest($id, $uid);
+                $arr = Utility::showUserQuest($id, $uid);
                 break;
             }
             /////////////////////////////////////////////////////////////////
+            /** @var \XoopsMemberHandler $memberHandler */
+            $memberHandler = \xoops_getHandler('member');
             if (isset($id)) {
                 $qname = QuizBase::quiz_quizName($id);
                 $nume  = Utility::numUserScore($id);
@@ -167,8 +169,9 @@ try {
                 $listQuiz = [];
                 $q        = 1;
                 $eu       = ($start - 0);
-                $query    = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' WHERE id = ' . $id . ' ORDER BY score DESC LIMIT ' . $eu . ' , ' . $limitUser);
-                while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+                $sql = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' WHERE id = ' . $id . ' ORDER BY score DESC LIMIT ' . $eu . ' , ' . $limitUser;
+                $result    = $xoopsDB->query($sql);
+                while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
                     $listQuiz [$q] ['id']     = $myrow ['id'];
                     $listQuiz [$q] ['userid'] = $myrow ['userid'];
                     $thisUser                 = $memberHandler->getUser($myrow ['userid']);
@@ -181,9 +184,10 @@ try {
                 ////////////////////////////////////////
                 if (isset($_GET ['exp']) && 'on' == $_GET ['exp']) {
                     $exportQuiz = [];
-                    $query      = $xoopsDB->query(' SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' WHERE id = ' . $id);
+                    $sql = ' SELECT * FROM ' . $xoopsDB->prefix('quiz_score') . ' WHERE id = ' . $id;
+                    $result      = $xoopsDB->query($sql);
                     $q          = 1;
-                    while (false !== ($myrow = $xoopsDB->fetchArray($query))) {
+                    while (false !== ($myrow = $xoopsDB->fetchArray($result))) {
                         $exportQuiz [$q] ['id']     = $myrow ['id'];
                         $exportQuiz [$q] ['userid'] = $myrow ['userid'];
                         $thisUser                   = $memberHandler->getUser($myrow ['userid']);
@@ -194,11 +198,9 @@ try {
                         $q++;
                     }
                     $fp = fopen('../../../uploads/quiz.csv', 'w+b') or redirect_header(XOOPS_URL . '/modules/quiz/admin/main.php?op=Statistics', 3, '_AM_QUIZ_OPEN_CSV_ERR');
-                    $msg = _AM_QUIZ_USER . ',' . _AM_QUIZ_USER_NAME . ',' . _AM_QUIZ_DATE . ',' . _AM_QUIZ_SCORE . '
-';
+                    $msg = _AM_QUIZ_USER . ',' . _AM_QUIZ_USER_NAME . ',' . _AM_QUIZ_DATE . ',' . _AM_QUIZ_SCORE . '';
                     foreach ($exportQuiz as $key) {
-                        $msg .= $key ['uname'] . ',' . $key ['name'] . ',' . $key ['date'] . ',' . $key ['score'] . '
-';
+                        $msg .= $key ['uname'] . ',' . $key ['name'] . ',' . $key ['date'] . ',' . $key ['score'] . '';
                     }
                     // for csv utf-8 language support
                     $msg = html_entity_decode($msg, ENT_NOQUOTES, 'utf-8');
