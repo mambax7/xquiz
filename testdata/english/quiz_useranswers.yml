@@ -1,1 +1,10 @@
-{  }
+-
+    questId: '1'
+    quizId: '1'
+    userId: '1'
+    userAns: '14'
+-
+    questId: '2'
+    quizId: '1'
+    userId: '1'
+    userAns: '10'

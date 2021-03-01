@@ -352,8 +352,9 @@ class QuizBase
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }
 
-        $sql = 'DELETE FROM ' . $xoopsDB->prefix('quiz_quizquestion') . " WHERE  
-					  qid = '$this->id' ";
+        $sql = 'DELETE FROM ' . $xoopsDB->prefix('quiz_questions') . " WHERE  
+					  quiz_id = '$this->id' ";
+        $res   = $xoopsDB->query($sql);
         if (!$res) {
             throw new \Exception(_AM_QUIZ_QUEST_DATABASE);
         }

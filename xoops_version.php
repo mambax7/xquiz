@@ -28,7 +28,7 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 $modversion = [
     'version'             => 2.00,
     'module_status'       => 'Beta 1',
-    'release_date'        => '2021/01/01',
+    'release_date'        => '2021/03/01',
     'name'                => _MI_QUIZ_NAME,
     'description'         => _MI_QUIZ_DESC,
     'official'            => 0,
@@ -117,7 +117,6 @@ $modversion = [
         $moduleDirName . '_' . 'score',
         $moduleDirName . '_' . 'questions',
         $moduleDirName . '_' . 'answers',
-        $moduleDirName . '_' . 'quizquestion',
         $moduleDirName . '_' . 'useranswers',
     ],
 ];

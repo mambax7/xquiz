@@ -9,20 +9,6 @@
     question_id: '2'
     quiz_id: '1'
     score: '1'
-    qnumber: '3'
+    qnumber: '2'
     question_type: MC
     question: 'What is capital of Japan'
--
-    question_id: '3'
-    quiz_id: '1'
-    score: '1'
-    qnumber: '3'
-    question_type: FB
-    question: 'Fill in the Blanks'
--
-    question_id: '4'
-    quiz_id: '1'
-    score: '1'
-    qnumber: '4'
-    question_type: CM
-    question: 'Choose one or more: what language is spoken in Switzerland?'

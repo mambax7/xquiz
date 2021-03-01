@@ -1,21 +1,21 @@
 -
     cid: '1'
     pid: '0'
-    title: Category1
+    title: Geography
     imgurl: blank.png
-    description: 'This is Category1'
+    description: '<p>This is Category about Geography</p>'
     weight: '0'
 -
     cid: '2'
     pid: '0'
-    title: Category2
+    title: Science
     imgurl: blank.png
-    description: 'This is Category2'
+    description: '<p>This is Category about Science</p>'
     weight: '1'
 -
     cid: '3'
-    pid: '1'
-    title: Sub-Category1-1
+    pid: '2'
+    title: Math
     imgurl: blank.png
-    description: 'This is SubCategory1-1'
+    description: '<p>This is Physics, a SubCategory of Science,&nbsp;</p>'
     weight: '0'

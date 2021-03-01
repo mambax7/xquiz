@@ -63,25 +63,8 @@ CREATE TABLE quiz_useranswers (
     questId INT(10)                NOT NULL,
     quizId  INT(10)                NOT NULL,
     userId  INT(11)                NOT NULL,
-    userAns ENUM ('1','2','3','4') NOT NULL,
+    userAns INT(11)                NOT NULL,
     PRIMARY KEY (questId, quizId, userId)
-)
-    ENGINE = InnoDB
-    DEFAULT CHARSET = utf8;
-
-
-CREATE TABLE quiz_quizquestion (
-    id       INT(10) UNSIGNED       NOT NULL AUTO_INCREMENT,
-    qid      INT(10) UNSIGNED       NOT NULL,
-    question VARCHAR(200)           NOT NULL,
-    qnumber  INT(10) UNSIGNED       NOT NULL,
-    score    INT(10) UNSIGNED       NOT NULL,
-    ans1     VARCHAR(200) DEFAULT NULL,
-    ans2     VARCHAR(200) DEFAULT NULL,
-    ans3     VARCHAR(200) DEFAULT NULL,
-    ans4     VARCHAR(200) DEFAULT NULL,
-    answer   ENUM ('1','2','3','4') NOT NULL,
-    PRIMARY KEY (id)
 )
     ENGINE = InnoDB
     DEFAULT CHARSET = utf8;

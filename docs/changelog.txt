@@ -1,6 +1,8 @@
-<h5>2.00 Beta 1   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, PHP 8.0
+<h5>2.00 Beta 1   [2021-03-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.15, PHP 8.0.2
 <hr>
 - change icons from array to object (mamba)
+- cleanup/cosmetics
+-
 
 <h5>2.00 Alpha 1   [2021-01-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.13, PHP 8.0
 <hr>
