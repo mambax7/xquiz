@@ -18,7 +18,6 @@
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
- * Version : $Id:
  * ****************************************************************************
  */
 
@@ -35,7 +34,7 @@ use XoopsModules\Quiz\{
 /** @var Helper $helper */
 /** @var Quiz $quiz */
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
 xoops_cp_header();
 try {
@@ -198,9 +197,9 @@ try {
                         $q++;
                     }
                     $fp = fopen('../../../uploads/quiz.csv', 'w+b') or redirect_header(XOOPS_URL . '/modules/quiz/admin/main.php?op=Statistics', 3, '_AM_QUIZ_OPEN_CSV_ERR');
-                    $msg = _AM_QUIZ_USER . ',' . _AM_QUIZ_USER_NAME . ',' . _AM_QUIZ_DATE . ',' . _AM_QUIZ_SCORE . '';
+                    $msg = _AM_QUIZ_USER . ',' . _AM_QUIZ_USER_NAME . ',' . _AM_QUIZ_DATE . ',' . _AM_QUIZ_SCORE . "\n";
                     foreach ($exportQuiz as $key) {
-                        $msg .= $key ['uname'] . ',' . $key ['name'] . ',' . $key ['date'] . ',' . $key ['score'] . '';
+                        $msg .= $key['uname'] . ',' . $key['name'] . ',' . $key['date'] . ',' . $key['score'] . "\n";
                     }
                     // for csv utf-8 language support
                     $msg = html_entity_decode($msg, ENT_NOQUOTES, 'utf-8');
