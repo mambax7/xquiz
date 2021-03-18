@@ -18,10 +18,10 @@
  * @author             Mojtaba Jamali(jamali.mojtaba@gmail.com)
  * @version            $Id$
  *
- * Version : $Id:
  * ****************************************************************************
  */
 
+use Xmf\Request;
 use XoopsModules\Quiz\{
     Category,
     Files,
@@ -31,7 +31,7 @@ use XoopsModules\Quiz\{
     Questions
 };
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 //require_once XOOPS_ROOT_PATH . '/modules/quiz/class/class.sfiles.php';
 
 if (isset($_POST ['addQuizSubmit'])) {

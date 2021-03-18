@@ -33,7 +33,7 @@ use XoopsModules\Quiz\{Category,
 ///** @var Quiz $quiz */
 /** @var Helper $helper */
 
-require dirname(__DIR__, 2) . '/mainfile.php';
+require_once \dirname(__DIR__, 2) . '/mainfile.php';
 $GLOBALS['xoopsOption']['template_main'] = 'quiz_index.tpl';
 require XOOPS_ROOT_PATH . '/header.php';
 require_once XOOPS_ROOT_PATH . '/class/pagenav.php';
@@ -93,7 +93,7 @@ try {
                 if (!$grouppermHandler->checkRight($perm_name, $cid, $groups, $module_id)) {
                     throw new Exception(_MD_QUIZ_PERMISSION);
                 }
-                $ts = MyTextSanitizer::getInstance();
+                $ts = \MyTextSanitizer::getInstance();
                 $xoopsTpl->assign('showQuiz', 1);
 
                 $qname = QuizBase::quiz_quizName($id);
@@ -318,7 +318,7 @@ try {
             throw new Exception(_MD_QUIZ_REGISTER_QUIZ);
         }
 
-        $myts          = MyTextSanitizer::getInstance();
+        $myts          = \MyTextSanitizer::getInstance();
         $quizId        = $myts->addSlashes($_POST ['quizId']);
         $user          = $xoopsUser->getVar('uid');
         $userQuizScore = Utility::findUserScore($user, $quizId);
@@ -390,7 +390,7 @@ try {
                     $score = 0;
                     foreach ($questObj->getAnswers() as $corrects) {
                         $score = 0;//mb
-                        if (($corrects->getAid() == $ans) && ($corrects->getIs_correct() == 1)) {
+                        if (($corrects->getAid() == $ans) && (1 == $corrects->getIs_correct())) {
                             $score = $questObj->getScore();
                             $sumScore += $score; //mb
                             break;
@@ -420,7 +420,7 @@ try {
                     $cAns = [];
                     $j    = 0;
                     foreach ($questObj->getAnswers() as $corrects) {
-                        if ($corrects->getIs_correct() == 1) {
+                        if (1 == $corrects->getIs_correct()) {
                             $cAns[$j] = $corrects->getAid();
                             $j++;
                         }
@@ -466,8 +466,8 @@ try {
             throw new Exception (_MD_QUIZ_REGISTER_QUIZ);
         }
 
-        $myts          = myTextSanitizer::getInstance();
-        $quizId        = $myts->addslashes($_POST ['quizId']);
+        $myts          = \MyTextSanitizer::getInstance();
+        $quizId        = $myts->addSlashes($_POST ['quizId']);
         $user          = $xoopsUser->getVar("uid");
         $userQuizScore = Utility::findUserScore($user, $quizId);
         if ($userQuizScore) {

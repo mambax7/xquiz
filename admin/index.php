@@ -37,7 +37,7 @@ use XoopsModules\Quiz\{
 /** @var Helper $helper */
 /** @var Utility $utility */
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 xoops_cp_header();
 $adminObject = Admin::getInstance();
 
@@ -163,7 +163,7 @@ if ($helper->getConfig('displaySampleButton')) {
     TestdataButtons::loadButtonConfig($adminObject);
     $adminObject->displayButton('left', '');;
 }
-$op = \Xmf\Request::getString('op', 0, 'GET');
+$op = Request::getString('op', 0, 'GET');
 switch ($op) {
     case 'hide_buttons':
         TestdataButtons::hideButtons();
@@ -179,4 +179,4 @@ $adminObject->displayIndex();
 echo $utility::getServerStats();
 
 //codeDump(__FILE__);
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

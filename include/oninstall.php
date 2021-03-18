@@ -1,65 +1,129 @@
 <?php
-
-/**
- * quiz - MODULE FOR XOOPS
- * Copyright (c) Mojtaba Jamali of persian xoops project (http://www.irxoops.org/)
- *
+/*
  * You may not change or alter any portion of this comment or credits
  * of supporting developers from this source code or any supporting source code
  * which is considered copyrighted (c) material of the original comment or credit authors.
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
- *
- * @copyright         XOOPS Project (https://xoops.org)
- * @license           GNU GPL 2 (https://www.gnu.org/licenses/old-licenses/gpl-2.0.html)
- * @package           quiz
- * @author            Mojtaba Jamali(jamali.mojtaba@gmail.com)
- * @version           $Id: $
  */
-function xoops_module_install_quiz()
+
+/**
+ * @copyright     {@link https://xoops.org/ XOOPS Project}
+ * @license       {@link https://www.gnu.org/licenses/gpl-2.0.html GNU GPL 2 or later}
+ * @author      XOOPS Development Team
+ */
+use Xmf\Database\Tables;
+use XoopsModules\Quiz\{
+    Common\Configurator,
+    Helper,
+    Utility
+};
+/** @var Helper $helper */
+/** @var Utility $utility */
+/** @var Configurator $configurator */
+
+/**
+ * Prepares system prior to attempting to install module
+ * @param \XoopsModule $module {@link XoopsModule}
+ *
+ * @return bool true if ready to install, false if not
+ */
+function xoops_module_pre_install_quiz(\XoopsModule $module)
 {
-    $dir = XOOPS_ROOT_PATH . '/uploads/quiz';
+    //    include __DIR__ . '/../preloads/autoloader.php';
+    include __DIR__ . '/common.php';
+    $utility = new Utility();
+    //check for minimum XOOPS version
+    $xoopsSuccess = $utility::checkVerXoops($module);
 
-    if (!is_dir($dir)) {
-        if (!mkdir($dir, 0777) && !is_dir($dir)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
+    // check for minimum PHP version
+    $phpSuccess = $utility::checkVerPhp($module);
+
+    if ($xoopsSuccess && $phpSuccess) {
+
+        $configurator = new Configurator();
+
+        //create upload folders
+        $uploadFolders = $configurator->uploadFolders;
+        foreach ($uploadFolders as $value) {
+            $utility::prepareFolder($value);
         }
 
-        chmod($dir, 0777);
-    }
-    $currentemptyfile     = XOOPS_ROOT_PATH . '/uploads/index.html';
-    $destinationemptyfile = XOOPS_ROOT_PATH . '/uploads/quiz/index.html';
-    copy($currentemptyfile, $destinationemptyfile);
-
-    $dir = XOOPS_ROOT_PATH . '/uploads/quiz/image';
-
-    if (!is_dir($dir)) {
-        if (!mkdir($dir, 0777) && !is_dir($dir)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
+        $moduleTables = &$module->getInfo('tables');
+        foreach ($moduleTables as $table) {
+            $GLOBALS['xoopsDB']->queryF('DROP TABLE IF EXISTS ' . $GLOBALS['xoopsDB']->prefix($table) . ';');
         }
-
-        chmod($dir, 0777);
     }
 
-    $currentemptyfile     = XOOPS_ROOT_PATH . '/uploads/index.html';
-    $destinationemptyfile = XOOPS_ROOT_PATH . '/uploads/quiz/image/index.html';
-    copy($currentemptyfile, $destinationemptyfile);
+    return $xoopsSuccess && $phpSuccess;
+}
 
-    $dir = XOOPS_ROOT_PATH . '/uploads/quiz/category';
+/**
+ * Performs tasks required during installation of the module
+ * @param \XoopsModule $module {@link XoopsModule}
+ *
+ * @return bool true if installation successful, false if not
+ */
+function xoops_module_install_quiz(\XoopsModule $module)
+{
+    require_once dirname(__DIR__) . '/preloads/autoloader.php';
 
-    if (!is_dir($dir)) {
-        if (!mkdir($dir, 0777) && !is_dir($dir)) {
-            throw new \RuntimeException(sprintf('Directory "%s" was not created', $dir));
+    $moduleDirName = \basename(\dirname(__DIR__));
+
+    $helper = Helper::getInstance();
+    $utility = new Utility();
+    $configurator = new Configurator();
+    // Load language files
+    $helper->loadLanguage('admin');
+    $helper->loadLanguage('modinfo');
+
+    // default Permission Settings ----------------------
+
+    $moduleId = $module->getVar('mid');
+    //$moduleName = $module->getVar('name');
+    /** @var \XoopsGroupPermHandler $grouppermHandler */
+    $grouppermHandler = xoops_getHandler('groupperm');
+    // access rights ------------------------------------------
+    $grouppermHandler->addRight($moduleDirName . '_approve', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_submit', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ADMIN, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_USERS, $moduleId);
+    $grouppermHandler->addRight($moduleDirName . '_view', 1, XOOPS_GROUP_ANONYMOUS, $moduleId);
+
+    //  ---  CREATE FOLDERS ---------------
+    if (count($configurator->uploadFolders) > 0) {
+        //    foreach (array_keys($GLOBALS['uploadFolders']) as $i) {
+        foreach (array_keys($configurator->uploadFolders) as $i) {
+            $utility::createFolder($configurator->uploadFolders[$i]);
         }
-
-        chmod($dir, 0777);
     }
 
-    $currentemptyfile     = XOOPS_ROOT_PATH . '/uploads/index.html';
-    $destinationemptyfile = XOOPS_ROOT_PATH . '/uploads/quiz/category/index.html';
-    copy($currentemptyfile, $destinationemptyfile);
-    $currentblankimage     = XOOPS_ROOT_PATH . '/modules/quiz/assets/images/blank.png';
-    $destinationblankimage = XOOPS_ROOT_PATH . '/uploads/quiz/category/blank.png';
-    copy($currentblankimage, $destinationblankimage);
+    //  ---  COPY blank.png FILES ---------------
+    if (count($configurator->copyBlankFiles) > 0) {
+        $file = dirname(__DIR__) . '/assets/images/blank.png';
+        foreach (array_keys($configurator->copyBlankFiles) as $i) {
+            $dest = $configurator->copyBlankFiles[$i] . '/blank.png';
+            $utility::copyFile($file, $dest);
+        }
+    }
+
+    /*
+        //  ---  COPY test folder files ---------------
+    if (count($configurator->copyTestFolders) > 0) {
+        //        $file =  dirname(__DIR__) . '/testdata/images/';
+        foreach (array_keys($configurator->copyTestFolders) as $i) {
+            $src  = $configurator->copyTestFolders[$i][0];
+            $dest = $configurator->copyTestFolders[$i][1];
+            $utility::xcopy($src, $dest);
+        }
+    }
+    */
+
+    //delete .html entries from the tpl table
+    $sql = 'DELETE FROM ' . $GLOBALS['xoopsDB']->prefix('tplfile') . " WHERE `tpl_module` = '" . $module->getVar('dirname', 'n') . "' AND `tpl_file` LIKE '%.html%'";
+    $GLOBALS['xoopsDB']->queryF($sql);
+
+    return true;
 }

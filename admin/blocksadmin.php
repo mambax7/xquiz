@@ -19,9 +19,9 @@ use XoopsModules\Quiz\{
     Helper
 };
 
-require __DIR__ . '/admin_header.php';
+require_once __DIR__ . '/admin_header.php';
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
 
 $helper->loadLanguage('blocksadmin');
@@ -56,7 +56,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
     {
         global $xoopsModule, $pathIcon16;
         require_once XOOPS_ROOT_PATH . '/class/xoopslists.php';
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
         $db = \XoopsDatabaseFactory::getDatabaseConnection();
         xoops_loadLanguage('admin', 'system');
@@ -293,7 +293,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         /** @var \Xmf\Module\Admin $adminObject */
         $adminObject = Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
-        $moduleDirName      = basename(dirname(__DIR__));
+        $moduleDirName      = \basename(\dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
@@ -436,7 +436,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
         /** @var \Xmf\Module\Admin $adminObject */
         $adminObject = Admin::getInstance();
         $adminObject->displayNavigation(basename(__FILE__));
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName); //$capsDirName
         xoops_loadLanguage('admin', 'system');
         xoops_loadLanguage('admin/blocksadmin', 'system');
@@ -514,7 +514,7 @@ if ($GLOBALS['xoopsUser']->isAdmin($xoopsModule->mid())) {
             }
         }
         $myblock->store();
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
         if (!empty($bmodule) && count($bmodule) > 0) {

@@ -3,7 +3,7 @@
 use Xmf\Module\Admin;
 
 $pathIcon16    = Admin::iconUrl('', 16);
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 
 $print = constant('CO_' . $moduleDirNameUpper . '_' . 'PRINT');

@@ -69,17 +69,15 @@ namespace XoopsModules\Quiz;
  * to use, or modify it however you like.  If you find this script useful please
  * e-mail me.
  **/
-defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
 /**
  * Class Mimetype
- * @package XoopsModules\Quiz
  */
 class Mimetype
 {
     /**
      * @param $filename
-     * @return string
+     * @return mixed|string
      */
     public function getType($filename)
     {
@@ -98,7 +96,7 @@ class Mimetype
 
     /**
      * @param $ext
-     * @return string
+     * @return mixed|string
      */
     public function privFindType($ext)
     {
@@ -110,7 +108,7 @@ class Mimetype
     }
 
     /**
-     * @return string[]
+     * @return array
      */
     public function privBuildMimeArray()
     {

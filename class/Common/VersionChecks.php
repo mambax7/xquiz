@@ -29,7 +29,7 @@ trait VersionChecks
      */
     public static function checkVerXoops(\XoopsModule $module = null, $requiredVer = null)
     {
-        $moduleDirName      = basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -61,7 +61,7 @@ trait VersionChecks
      */
     public static function checkVerPhp(\XoopsModule $module = null)
     {
-        $moduleDirName      = basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $module) {
             $module = \XoopsModule::getByDirname($moduleDirName);
@@ -98,7 +98,7 @@ trait VersionChecks
 
     public static function checkVerModule($helper, $source = 'github', $default = 'master')
     {
-        $moduleDirName      = basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         $update             = '';
         $repository         = 'XoopsModules25x/' . $moduleDirName;
@@ -109,7 +109,7 @@ trait VersionChecks
             if (function_exists('curl_init') && false !== ($curlHandle = curl_init())) {
                 curl_setopt($curlHandle, CURLOPT_URL, $infoReleasesUrl);
                 curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, true);
-                curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, true);
+                curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, true); //TODO: how to avoid an error when 'Peer's Certificate issuer is not recognized'
                 curl_setopt($curlHandle, CURLOPT_HTTPHEADER, ["User-Agent:Publisher\r\n"]);
                 $curlReturn = curl_exec($curlHandle);
                 if (false === $curlReturn) {

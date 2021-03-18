@@ -19,7 +19,7 @@ namespace XoopsModules\Quiz\Common;
  * @author      XOOPS Development Team
  */
 
-// require_once dirname(dirname(__DIR__)) . '/include/common.php';
+// require_once \dirname(__DIR__, 2) . '/include/common.php';
 
 /**
  * Class Configurator
@@ -44,13 +44,7 @@ class Configurator
      */
     public function __construct()
     {
-//        $moduleDirName      = basename(dirname(dirname(__DIR__)));
-//        $moduleDirNameUpper = mb_strtoupper($moduleDirName);
-
-//        require dirname(dirname(__DIR__)) . '/config/config.php';
-//        $config = getConfig();
-
-        $config = include dirname(__DIR__, 2) . '/config/config.php';
+        $config = require \dirname(__DIR__, 2) . '/config/config.php';
 
         $this->name            = $config->name;
         $this->paths           = $config->paths;
@@ -64,8 +58,8 @@ class Configurator
         $this->moduleStats     = $config->moduleStats;
         $this->modCopyright    = $config->modCopyright;
 
-        $this->icons = include dirname(__DIR__, 2) . '/config/icons.php';
-        $this->paths = include dirname(__DIR__, 2) . '/config/paths.php';
+        $this->icons = include \dirname(__DIR__, 2) . '/config/icons.php';
+        $this->paths = include \dirname(__DIR__, 2) . '/config/paths.php';
 
     }
 }

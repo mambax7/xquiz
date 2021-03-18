@@ -25,8 +25,8 @@ use XoopsModules\Quiz;
 
 //defined('XOOPS_ROOT_PATH') || exit('XOOPS root path not defined');
 
-require_once dirname(__DIR__, 4) . '/mainfile.php';
-$moduleDirName      = basename(dirname(__DIR__, 2));
+require_once \dirname(__DIR__, 4) . '/mainfile.php';
+$moduleDirName      = \basename(\dirname(__DIR__, 2));
 $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 xoops_loadLanguage('filechecker', $moduleDirName);
 
@@ -52,7 +52,7 @@ class FileChecker
         if (null === $redirectFile) {
             $redirectFile = $_SERVER['SCRIPT_NAME'];
         }
-        $moduleDirName      = basename(dirname(__DIR__, 2));
+        $moduleDirName      = \basename(\dirname(__DIR__, 2));
         $moduleDirNameUpper = mb_strtoupper($moduleDirName);
         if (null === $original_file_path) {
             if (self::fileExists($file_path)) {

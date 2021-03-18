@@ -25,7 +25,7 @@ namespace XoopsModules\Quiz;
 
 use XoopsModules\Quiz;
 
-$moduleDirName = basename(dirname(__DIR__));
+$moduleDirName = \basename(\dirname(__DIR__));
 
 $permHelper = new \Xmf\Module\Helper\Permission();
 

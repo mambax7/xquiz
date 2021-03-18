@@ -3,7 +3,16 @@
 
     <h4 class="odd">DESCRIPTION</h4> <br>
 
-    <p class="even">This module is ....<br> <br>
+    <p class="even">xQuiz is a module for XOOPS which lets you create multiple option quizzes at a specified time and attach them to categories in your website, users can take part quizzes and module administrators can then view quiz result statistics afterwards.<br> <br>
+
+        1)Manage categories and subcategories<br>
+        2)Determine access right permission on categories<br>
+        3)Manage quizzes<br>
+        4)Manage question for each quiz<br>
+        5)Various statistics for the quizzes result details<br>
+        6)Use XOOPS system notification (categories and quizzes)<br>
+        7)Integrated search
+        <br> <br>
     </p>
 
     <h4 class="odd">INSTALL/UNINSTALL</h4>
@@ -26,7 +35,7 @@
 
     <p class="even">
         Tutorial has been started, but we might need your help! Please check out the status of the tutorial <a href="https://xoops.gitbook.io/ZZZZZZZZ-tutorial/" target="_blank">here </a>.
-        <br><br>To contribute to this Tutorial, <a href="https://github.com/XoopsDocs/ZZZZZZZZ-tutorial/" target="_blank">please fork it on GitHub</a>.
+        <br><br>To contribute to this Tutorial, <a href="https://github.com/XoopsDocs/quiz-tutorial/" target="_blank">please fork it on GitHub</a>.
         <br> This document describes our <a href="https://xoops.gitbook.io/xoops-documentation-process/" target="_blank">Documentation Process</a> and it will help you to understand how to contribute.
         <br><br>
         There are more XOOPS Tutorials, so check them out in our <a href="https://www.gitbook.com/@xoops/" target="_blank">XOOPS Tutorial Repository on GitBook</a>.

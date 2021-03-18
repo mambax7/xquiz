@@ -98,4 +98,4 @@ switch ($op) {
 
         break;
 }
-require __DIR__ . '/admin_footer.php';
+require_once __DIR__ . '/admin_footer.php';

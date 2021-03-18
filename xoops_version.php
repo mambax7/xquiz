@@ -27,7 +27,7 @@ $moduleDirNameUpper = mb_strtoupper($moduleDirName);
 // ------------------- Informations -------------------
 $modversion = [
     'version'             => 2.00,
-    'module_status'       => 'Beta 1',
+    'module_status'       => 'Beta 2',
     'release_date'        => '2021/03/01',
     'name'                => _MI_QUIZ_NAME,
     'description'         => _MI_QUIZ_DESC,
@@ -73,12 +73,12 @@ $modversion = [
     'adminmenu'           => 'admin/menu.php',
     // ------------------- Main Menu -------------------
     'hasMain'             => 1,
-//    'sub'                 => [
-//        [
-//            'name' => _MI_QUIZ_VIEW_SEARCH,
-//            'url'  => 'index.php',
-//        ],
-//    ],
+    //    'sub'                 => [
+    //        [
+    //            'name' => _MI_QUIZ_VIEW_SEARCH,
+    //            'url'  => 'index.php',
+    //        ],
+    //    ],
 
     // ------------------- Install/Update -------------------
     'onInstall'           => 'include/oninstall.php',

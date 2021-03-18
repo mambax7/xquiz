@@ -55,7 +55,7 @@ function quiz_search($queryarray, $andor, $limit, $offset, $userid)
         $ret[$i]['title'] = $myrow['name'];
         $ret[$i]['time']  = $myrow['bdate'];
         $ret[$i]['uid']   = '';
-        $i++;
+        ++$i;
     }
     return $ret;
 }

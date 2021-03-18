@@ -4,13 +4,9 @@ namespace XoopsModules\Quiz;
 
 /**
  * Class Answer
- * @package XoopsModules\Quiz
  */
 class Answer
 {
-    /**
-     *
-     */
     private $aid;
     private $questId;
     private $is_correct;
@@ -61,7 +57,6 @@ class Answer
      */
     public function setAnswer($answer)
     {
-        //$this->answer = $xoopsDB->escape($answer);
         $this->answer = $answer;
     }
 
@@ -81,13 +76,16 @@ class Answer
         $this->questId = (int)$questId;
     }
 
+    /**
+     * Answer constructor.
+     */
     public function __construct()
     {
         //TODO - Insert your code here
     }
 
     /**
-     *
+     *  Answer destructor.
      */
     public function __destruct()
     {
@@ -118,7 +116,7 @@ class Answer
     }
 
     /*
-     * TODO - delete question's answers
+     * TODO - delete qustion's answers
      * @param $questionId
      * @return bool
      */
@@ -134,8 +132,7 @@ class Answer
         $res        = $xoopsDB->query($sql);
         if (!$res) {
             return false;
-        } else {
-            return true;
         }
+        return true;
     }
 }

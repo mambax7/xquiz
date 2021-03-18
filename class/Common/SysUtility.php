@@ -70,7 +70,7 @@ class SysUtility
         global $start, $order, $file_cat, $sort, $xoopsModule;
 
         $select_view   = '';
-        $moduleDirName = basename(dirname(__DIR__));
+        $moduleDirName = \basename(\dirname(__DIR__));
         /** @var Helper $helper */
         $helper = Helper::getInstance();
 
