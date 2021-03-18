@@ -1,5 +1,8 @@
 <h5>2.00 Beta 2   [NOT RELEASED]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.15, PHP 8.0.2
 <hr>
+- replace index.html with index.php (mamba)
+- add onupdate.php, onunistall.php files (mamba)
+- fix CSV export (mamba)
 
 <h5>2.00 Beta 1   [2021-03-01]</h5>  Dev: XOOPS 2.5.11, PHP 7.4.15, PHP 8.0.2
 <hr>
